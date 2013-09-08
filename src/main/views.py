@@ -1,5 +1,5 @@
 from main.models.classifieds import Classified
-from main.models.forms import AddClassifiedForm
+from main.models.forms import *
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 
 
 
-def classified(request):
+def viewClassified(request):
     classifieds = Classified.objects.all()
 
     return render_to_response(
@@ -21,32 +21,32 @@ def classified(request):
     )
 
 
-def register(request):
+def registerUser(request):
     if request.method=='POST':
-        formulario = UserCreationForm(request.POST)
-        if formulario.is_valid:
-            formulario.save()
-            return HttpResponseRedirect('/register')
+        formset = UserCreationForms(request.POST)
+        if formset.is_valid:
+            formset.save()
+            #return HttpResponseRedirect('/register')
     else:
-        formulario = UserCreationForm()
+        formset = UserCreationForms()
     return render_to_response(
         'register.html', 
-        {'formulario': formulario}, 
+        {'formset': formset}, 
         context_instance=RequestContext(request)
     )
 
 
 
-def addclassified(request):
+def addClassified(request):
     if request.method=='POST':
-        formulario = AddClassifiedForm(request.POST)
-        if formulario.is_valid:
-            formulario.save()
+        formset = AddClassifiedForm(request.POST)
+        if formset.is_valid:
+            formset.save()
             return HttpResponseRedirect('/')
     else:
-        formulario = AddClassifiedForm()
+        formset = AddClassifiedForm()
     return render_to_response(
         'addclassified.html', 
-        {'formulario': formulario}, 
+        {'formset': formset}, 
         context_instance = RequestContext(request))
 

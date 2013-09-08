@@ -1,12 +1,10 @@
 
-{% block titulo %}Nuevo usuario{% endblock %}
-{% block encabezado %} 
-	<h1>Registra un nuevo usuario</h1>
-{% endblock %}
 
-{% block contenido %}
-	<form id='formulario' method='post' action=''>{% csrf_token %}
-		<table>{{formulario.as_p}}</table>
-		<p><input type='submit' value='Registrar'/></p>
+{% block content %}
+	<form id='formset' method='post' action=''>{% csrf_token %}
+		<table>
+			{{ formset }}
+		</table>
+		<p><input type='submit' value='register'/></p>
 	</form>
 {% endblock %}
