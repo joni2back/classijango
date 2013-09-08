@@ -1,0 +1,12 @@
+
+{% block titulo %}Nuevo clasifica2{% endblock %}
+{% block encabezado %} 
+	<h1>Registra un nuevo clasifica2</h1>
+{% endblock %}
+
+{% block contenido %}
+	<form id='formulario' method='post' action=''>{% csrf_token %}
+		<table>{{formulario}}</table>
+		<p><input type='submit' value='guardar'/></p>
+	</form>
+{% endblock %}
