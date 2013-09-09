@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.conf import settings
 
 admin.autodiscover()
 
@@ -13,10 +14,15 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     #url(r'', include(admin.site.urls)),
-    #url(r'^receta/(?P<id_receta>\d+)$','principal.views.detalle_receta'),
+
+    url(r'^assets/(?P<path>.*)$','django.views.static.serve',
+        {'document_root':settings.MEDIA_ROOT,}
+    ),
+
+    url(r'^$', 'django.contrib.auth.views.login'),
 	url(r'^register$','main.views.registerUser'),
-	#url(r'^usuarios/$','principal.views.usuarios'),
-    url(r'^classified/', 'main.views.viewClassified'),
-    url(r'^addclassified/', 'main.views.addClassified'),
+    url(r'^find/', 'main.views.viewClassified'),
+    url(r'^create-ad/', 'main.views.addClassified'),
+    url(r'^login/', 'django.contrib.auth.views.login'),
     url(r'^admin/', include(admin.site.urls)),
 )

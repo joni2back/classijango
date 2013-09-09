@@ -1,10 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Signup{% endblock %}
+{% block header %} 
+	<h1>Create an account</h1>
+{% endblock %}
 
-
-{% block content %}
-	<form id='formset' method='post' action=''>{% csrf_token %}
+{% block main_content %}
+	<form id='register-form' method='post' action=''>{% csrf_token %}
 		<table>
 			{{ formset }}
 		</table>
-		<p><input type='submit' value='register'/></p>
+		<p><input type='submit' class='btn' value='Register'/></p>
 	</form>
 {% endblock %}

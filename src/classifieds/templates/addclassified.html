@@ -1,12 +1,12 @@
-
-{% block titulo %}Nuevo clasifica2{% endblock %}
-{% block encabezado %} 
-	<h1>Registra un nuevo clasifica2</h1>
+{% extends 'base.html' %}
+{% block title %}Create an ad{% endblock %}
+{% block header %} 
+	<h1>Create new ad</h1>
 {% endblock %}
 
-{% block contenido %}
-	<form id='formulario' method='post' action=''>{% csrf_token %}
-		<table>{{formulario}}</table>
-		<p><input type='submit' value='guardar'/></p>
+{% block main_content %}
+	<form id='create-ad' method='post' action=''>{% csrf_token %}
+		<table>{{ formset }}</table>
+		<p><input type='submit' value='Save'/></p>
 	</form>
 {% endblock %}

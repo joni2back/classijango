@@ -21,6 +21,7 @@ def viewClassified(request):
     )
 
 
+
 def registerUser(request):
     if request.method=='POST':
         formset = UserCreationForms(request.POST)

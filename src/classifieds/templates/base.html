@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+  <meta charset='utf-8'>
+  <title>Classijango - {% block title %}{% endblock %}</title>
+  <link rel='stylesheet' href='{{STATIC_URL}}css/bootstrap.css'>
+  <link rel='stylesheet' href='{{STATIC_URL}}css/bootstrap-responsive.css'>
+  
+  {% block style_css %}{% endblock %}
+
+  <script src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+  <script src='{{STATIC_URL}}js/bootstrap.js'></script>
+</head>
+<body>
+  <header>
+	{% block header %}{% endblock %}
+	<nav>
+	  <ul id='menu'>
+      {% block main_menu %}{% endblock %}
+		  <li><a href='/'>Home</a></li>
+		  <li><a href='/create-ad'>Create ad</a></li>
+		  <li><a href='/register'>Register</a></li>
+      <li><a href="/login">Login</a></li>
+		  <li><a href='/find'>Find articles</a></li>
+    </ul>
+	</nav>
+	<hr>
+  </header>	
+  <section class='main-content'>
+	{% block main_content %}{% endblock %}
+  </section>
+  <footer>
+	<p>Classijango 2013</p>
+  </footer>
+</body>
+</html>
