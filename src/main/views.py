@@ -25,7 +25,7 @@ def viewClassified(request):
 def registerUser(request):
     if request.method=='POST':
         formset = UserCreationForms(request.POST)
-        if formset.is_valid:
+        if formset.is_valid():
             formset.save()
             #return HttpResponseRedirect('/register')
     else:
@@ -40,8 +40,8 @@ def registerUser(request):
 
 def addClassified(request):
     if request.method=='POST':
-        formset = AddClassifiedForm(request.POST)
-        if formset.is_valid:
+        formset = AddClassifiedForm(request.POST, request.FILES)
+        if formset.is_valid():
             formset.save()
             return HttpResponseRedirect('/')
     else:

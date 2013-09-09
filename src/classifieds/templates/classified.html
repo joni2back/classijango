@@ -1,6 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Signup{% endblock %}
+{% block header %} 
+	<h1>Latest classifieds</h1>
+{% endblock %}
 
-{% for class in classifieds %}
 
-{{class.title}}
-
-{% endfor %}
+{% block main_content %}
+<ul>
+	{% for class in classifieds %}
+		<li>{{class.title}}</li>
+	{% endfor %}
+</ul>
+{% endblock %}

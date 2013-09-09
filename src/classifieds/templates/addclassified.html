@@ -5,8 +5,9 @@
 {% endblock %}
 
 {% block main_content %}
-	<form id='create-ad' method='post' action=''>{% csrf_token %}
+	<form id='create-ad' method='post' action=''>
+		{% csrf_token %}
 		<table>{{ formset }}</table>
-		<p><input type='submit' value='Save'/></p>
+		<p><input type='submit' class='btn btn-primary btn-large' value='Save'/></p>
 	</form>
 {% endblock %}
