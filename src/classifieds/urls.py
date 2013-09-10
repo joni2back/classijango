@@ -1,6 +1,8 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
+from django.views.generic.edit import CreateView
+from main.models.forms import UserCreationForms
 
 admin.autodiscover()
 
@@ -20,7 +22,12 @@ urlpatterns = patterns('',
     ),
 
     url(r'^$', 'django.contrib.auth.views.login'),
-	url(r'^register$','main.views.registerUser'),
+	#url(r'^register$','main.views.registerUser'),
+    url(r'^register', CreateView.as_view(
+        template_name='register.html',
+        form_class=UserCreationForms,
+        success_url='/'
+    )),
     url(r'^find/', 'main.views.viewClassified'),
     url(r'^create-ad/', 'main.views.addClassified'),
     url(r'^login/', 'django.contrib.auth.views.login'),
