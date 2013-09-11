@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from main.models.classifieds import Classified
 from main.models.forms import *
 from django.contrib.auth.models import User
@@ -24,12 +25,12 @@ def viewClassified(request):
 
 def registerUser(request):
     if request.method=='POST':
-        formset = UserCreationForms(request.POST)
+        formset = UserRegistrationForm(request.POST)
         if formset.is_valid():
             formset.save()
             #return HttpResponseRedirect('/register')
     else:
-        formset = UserCreationForms()
+        formset = UserRegistrationForm()
     return render_to_response(
         'register.html', 
         {'formset': formset}, 
