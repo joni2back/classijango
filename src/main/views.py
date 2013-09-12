@@ -2,14 +2,9 @@
 from main.models.classifieds import Classified
 from main.models.forms import *
 from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
-from django.core.mail import EmailMessage
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-
 
 
 def viewClassified(request):
@@ -20,7 +15,6 @@ def viewClassified(request):
         {'classifieds': classifieds}, 
         context_instance = RequestContext(request)
     )
-
 
 
 def registerUser(request):
@@ -36,7 +30,6 @@ def registerUser(request):
         {'formset': formset}, 
         context_instance=RequestContext(request)
     )
-
 
 
 def addClassified(request):

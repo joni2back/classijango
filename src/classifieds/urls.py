@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.views.generic.edit import CreateView
 from main.models.forms import UserRegistrationForm
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 
 admin.autodiscover()
 
