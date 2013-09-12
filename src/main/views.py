@@ -12,26 +12,9 @@ from django.contrib.auth import authenticate, login
 from django.contrib import auth
 
 
-# def loginUser(request):
-#     if request.method=='POST':
-#         username = request.POST['username']
-#         password = request.POST['password']
-#         user = authenticate(username=username, password=password)
-#         if user is not None:
-#             if user.is_active:
-#                 login(request, user)
-#                 return HttpResponseRedirect('/')
-
-#     return render_to_response(
-#         'registration/login.html',
-#         {'request': request}, 
-#         context_instance = RequestContext(request)
-#     )
-
 def logout(request, next_page='/'):
     auth.logout(request)
     return HttpResponseRedirect(next_page)
-
 
 def index(request):
     return render_to_response(
@@ -49,8 +32,6 @@ def viewClassified(request):
         context_instance = RequestContext(request)
     )
 
-
-
 def registerUser(request):
     if request.method=='POST':
         formset = UserRegistrationForm(request.POST)
@@ -65,12 +46,14 @@ def registerUser(request):
         context_instance=RequestContext(request)
     )
 
-
 def addClassified(request):
     if request.method=='POST':
         formset = AddClassifiedForm(request.POST, request.FILES)
         if formset.is_valid():
-            formset.save()
+            classified = formset.save(commit=False)
+            if request.user.is_authenticated():
+                classified.user = request.user
+            classified.save()
             return HttpResponseRedirect('/')
     else:
         formset = AddClassifiedForm()
@@ -78,4 +61,3 @@ def addClassified(request):
         'addclassified.html', 
         {'formset': formset, 'request': request}, 
         context_instance = RequestContext(request))
-

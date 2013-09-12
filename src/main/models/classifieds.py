@@ -44,9 +44,8 @@ class Classified(models.Model):
     google_map = models.CharField(max_length=128, null=True)
 
     image_1 = models.ImageField(upload_to='images', blank=True)
-    image_3 = models.ImageField(upload_to='images', blank=True)
     image_2 = models.ImageField(upload_to='images', blank=True)
-
+    image_3 = models.ImageField(upload_to='images', blank=True)
 
     class Meta:
         verbose_name_plural = 'Classifieds'
