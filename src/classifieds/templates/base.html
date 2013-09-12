@@ -53,7 +53,8 @@
               <li><a href='/create-ad'>Create ad</a></li>
               <li><a href='/register'>Register</a></li>
               <li><a href="/login">Login</a></li>
-              <li><a href='/find'>Find articles</a></li>              
+              <li><a href='/find'>Find articles</a></li> 
+              <li><a href='/account/profile'></a></li>              
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -61,13 +62,11 @@
     </div>
 
     <div class="container clear">
-
       {% block header %}{% endblock %}
       {% block main_content %}{% endblock %}
-
     </div>
     <footer>
-      <p>Classijango 2013</p>
+      
     </footer>
     <script src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
     <script src='{{STATIC_URL}}js/bootstrap.js'></script>

@@ -48,8 +48,6 @@ class Classified(models.Model):
     image_2 = models.ImageField(upload_to='images', blank=True)
 
 
-
-
     class Meta:
         verbose_name_plural = 'Classifieds'
         app_label = "main"
