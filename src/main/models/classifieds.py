@@ -4,7 +4,7 @@ from main.models.status import ClassifiedStatus
 from django.contrib.auth.models import User
 import datetime, calendar, Image
 
-CLASSIFIED_EXPIRATION_MONTHS = 9999
+CLASSIFIED_EXPIRATION_MONTHS = 1
 
 CLASSIFIED_STATUS = (
     (0, 'Inactivo'),

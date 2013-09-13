@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Sign In{% endblock %}
+{% block header %} 
+	<h1>My profile</h1>
+{% endblock %}
+
+{% block main_content %}
+	<form id='create-ad' method='post' class='form-horizontal'>
+		<fieldset>
+			{% csrf_token %}
+			<table class='table table-striped table-bordered table-hover '>
+				{{ formset }}
+			</table>
+			<p><input type='submit' class='btn btn-primary ' value='Update profile'/></p>
+		</fieldset>
+	</form>
+{% endblock %}

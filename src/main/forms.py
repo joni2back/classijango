@@ -15,6 +15,10 @@ class AddClassifiedForm(ModelForm):
             'image_2', 'image_3',
         )
 
+class EditProfileForm(ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('username', 'email', 'phone', 'first_name', 'last_name', )
 
 class UserRegistrationForm(UserCreationForm):
     email = forms.CharField()

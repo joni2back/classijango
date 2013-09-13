@@ -10,6 +10,7 @@ from django.contrib.sessions.models import Session
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import auth
+from main.models.user import UserProfile
 
 def logout(request, next_page='/'):
     auth.logout(request)
@@ -41,6 +42,23 @@ def registerUser(request):
         formset = UserRegistrationForm()
     return render_to_response(
         'registration/register.html', 
+        {'formset': formset}, 
+        context_instance=RequestContext(request)
+    )
+
+@login_required
+def myProfile(request):
+    user = UserProfile.objects.get(pk=request.user.id)
+
+    if request.method=='POST':
+        formset = EditProfileForm(request.POST, instance=user)
+        if formset.is_valid():
+            formset.save()
+            return HttpResponseRedirect('/')
+    else:
+        formset = EditProfileForm(instance=user)
+    return render_to_response(
+        'registration/profile.html', 
         {'formset': formset}, 
         context_instance=RequestContext(request)
     )

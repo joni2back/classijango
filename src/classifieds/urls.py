@@ -17,19 +17,15 @@ urlpatterns = patterns('',
     ),
 
     url(r'^$', 'main.views.index'),
-    url(r'^accounts/profile/$', 'main.views.index'),
+   
     
-    #url(r'^register', CreateView.as_view(
-    #    template_name='register.html',
-    #    form_class=UserCreationForms,
-    #    success_url='/'
-    #)),
-    
-    url(r'^account/register/$', 'main.views.registerUser'),
     url(r'^find/', 'main.views.viewClassified'),
     url(r'^create-ad/', 'main.views.addClassified'),
-    url(r'^account/logout/', 'main.views.logout'),
-    url(r'^account/login/', 'django.contrib.auth.views.login'),
-    #url(r'^login/', 'main.views.loginUser'),
+    
+    url(r'^accounts/register/$', 'main.views.registerUser'),
+    url(r'^accounts/profile/', 'main.views.myProfile'),
+    url(r'^accounts/logout/', 'main.views.logout'),
+    url(r'^accounts/login/', 'django.contrib.auth.views.login'),
+    
     url(r'^admin/', include(admin.site.urls)),
 )
