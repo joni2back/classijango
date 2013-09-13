@@ -6,9 +6,12 @@
 
 
 {% block main_content %}
-<ul>
-	{% for class in classifieds %}
-		<li>{{class.title}}</li>
-	{% endfor %}
-</ul>
+	<div class="row-fluid marketing">
+		{% for classified in classifieds %}
+	        <div class="span6">
+	          <h4>{{ classified.title }}</h4>
+	          <p>{{ classified.content }}</p>
+	        </div>
+		{% endfor %}
+	</div>
 {% endblock %}

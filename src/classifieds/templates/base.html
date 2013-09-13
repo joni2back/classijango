@@ -29,9 +29,6 @@
       ul.errorlist li {
           color:red;
       }
-      table td, table th {
-          border-bottom:1px solid #ccc;
-      }
     </style>    
   </head>
 
@@ -45,17 +42,23 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#">Classijango</a>
+          <a class="brand" href="/">Classijango</a>
           <div class="nav-collapse collapse">
+
+            <p class="navbar-text pull-right">
+              Logged in as <a href="#" class="navbar-link">{{ request.user.username }}</a>
+            </p>
+
             <ul class="nav">
               {% block main_menu %}{% endblock %}
-              <li class='active'><a href='/'>Home</a></li>
-              <li><a href='/create-ad'>Create ad</a></li>
-              <li><a href='/register'>Register</a></li>
-              <li><a href="/login">Login</a></li>
-              <li><a href='/find'>Find articles</a></li> 
-              <li><a href='/account/profile'></a></li>              
+              <li class='{% ifequal request.path "/" %}active{% endifequal %}'><a href='/'>Home</a></li>
+              <li class='{% ifequal request.path "/create-ad/" %}active{% endifequal %}'><a href='/create-ad/'>Create ad</a></li>
+              <li class='{% ifequal request.path "/account/register/" %}active{% endifequal %}'><a href='/account/register/'>Register</a></li>
+              <li class='{% ifequal request.path "/account/login/" %}active{% endifequal %}'><a href="/account/login/">Login</a></li>
+              <li class='{% ifequal request.path "/find/" %}active{% endifequal %}'><a href='/find/'>Find articles</a></li> 
+
             </ul>
+
           </div><!--/.nav-collapse -->
         </div>
       </div>

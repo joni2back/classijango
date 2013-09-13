@@ -25,11 +25,11 @@ urlpatterns = patterns('',
     #    success_url='/'
     #)),
     
-    url(r'^register/$', 'main.views.registerUser'),
+    url(r'^account/register/$', 'main.views.registerUser'),
     url(r'^find/', 'main.views.viewClassified'),
     url(r'^create-ad/', 'main.views.addClassified'),
-    url(r'^logout/', 'main.views.logout'),
-    url(r'^login/', 'django.contrib.auth.views.login'),
+    url(r'^account/logout/', 'main.views.logout'),
+    url(r'^account/login/', 'django.contrib.auth.views.login'),
     #url(r'^login/', 'main.views.loginUser'),
     url(r'^admin/', include(admin.site.urls)),
 )

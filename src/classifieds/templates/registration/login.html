@@ -5,21 +5,22 @@
 {% endblock %}
 
 {% block main_content %}
-<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
-	{% csrf_token %}
-	<table>
-	<tr>
-	    <td>{{ form.username.label_tag }}</td>
-	    <td>{{ form.username }}</td>
-	</tr>
-	<tr>
-	    <td>{{ form.password.label_tag }}</td>
-	    <td>{{ form.password }}</td>
-	</tr>
-	</table>
-
-	<input type="submit" class="btn btn-primary btn-large" value="Sign in" />
-	<input type="hidden" name="next" value="{{ next }}" />
+	<form method="post" action="{% url 'django.contrib.auth.views.login' %}" class='form-horizontal'>
+		<fieldset>
+			{% csrf_token %}
+			<table class='table table-striped table-bordered table-hover '>
+			<tr>
+			    <td>{{ form.username.label_tag }}</td>
+			    <td>{{ form.username }}</td>
+			</tr>
+			<tr>
+			    <td>{{ form.password.label_tag }}</td>
+			    <td>{{ form.password }}</td>
+			</tr>
+			</table>
+			<input type="submit" class="btn btn-primary btn-large" value="Sign in" />
+			<input type="hidden" name="next" value="{{ next }}" />
+		</fieldset>
 	</form>
 {% endblock %}
 

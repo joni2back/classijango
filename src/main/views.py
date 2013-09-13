@@ -11,7 +11,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import auth
 
-
 def logout(request, next_page='/'):
     auth.logout(request)
     return HttpResponseRedirect(next_page)
@@ -19,7 +18,7 @@ def logout(request, next_page='/'):
 def index(request):
     return render_to_response(
         'index.html',
-        {'request': request}, 
+        {}, 
         context_instance = RequestContext(request)
     )
 
@@ -41,7 +40,7 @@ def registerUser(request):
     else:
         formset = UserRegistrationForm()
     return render_to_response(
-        'register.html', 
+        'registration/register.html', 
         {'formset': formset}, 
         context_instance=RequestContext(request)
     )
@@ -59,5 +58,5 @@ def addClassified(request):
         formset = AddClassifiedForm()
     return render_to_response(
         'addclassified.html', 
-        {'formset': formset, 'request': request}, 
+        {'formset': formset}, 
         context_instance = RequestContext(request))
