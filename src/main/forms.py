@@ -7,17 +7,19 @@ from main.models.classifieds import Classified
 from main.models.locations import Country, Province, City
 
 class AddClassifiedForm(ModelForm):
-    country = forms.ModelChoiceField(queryset = Country.objects.all(), required = False)
-    province = forms.ChoiceField(required = False)
-    city = forms.ChoiceField(required = False)
+    #contact_country = forms.ModelChoiceField(queryset = Country.objects.all(), required = False)
+    #contact_province = forms.ChoiceField(required = False)
+    #contact_city = forms.ChoiceField(required = False)
+    
     class Meta:
         model = Classified
         fields = (
             'title', 'content', 'category', 'type', 'currency', 'price',
-            'contact_name', 'contact_email', 'contact_location', 
+            'contact_name', 'contact_email',  
             'contact_phone', 'contact_address', 'google_map', 
             'image_1', 'image_2', 'image_3',
         )
+
 
 class EditProfileForm(ModelForm):
     class Meta:

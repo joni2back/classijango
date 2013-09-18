@@ -84,6 +84,8 @@ def addClassified(request):
         formset = AddClassifiedForm(request.POST, request.FILES)
         if formset.is_valid():
             classified = formset.save(commit = False)
+            classified.contact_location = request.request.POST['id_contact_city']
+
             #Validate extension/content-type and resize pictures
             if request.user.is_authenticated():
                 classified.user = request.user

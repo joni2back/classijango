@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Create an ad{% endblock %}
 {% block header %} 
-	<h1>Create new ad</h1>
+    <h1>Create new ad</h1>
 {% endblock %}
 
 {% block main_content %}
@@ -10,12 +10,18 @@
 			{% csrf_token %}
 			<table class='table table-striped table-bordered table-hover '>
 				{{ formset }}
+                <tr>
+                    <th><label for="id_contact_city">Contact City:</label></th>
+                    <td>
+                        <select name='id_contact_country' id='id_contact_country'></select>
+                        <select name='id_contact_province' id='id_contact_province'></select>
+                        <select name='id_contact_city' id='id_contact_city'></select>
+                    </td>
+                </tr>
 			</table>
-			<p><input type='submit' class='btn btn-primary ' value='Save'/></p>
+            <p><input type='submit' class='btn btn-primary ' value='Save'/></p>
 		</fieldset>
 	</form>
-	<select id='provinces'></select>
-	<select id='cities'></select>
 
 
 {% endblock %}
@@ -23,12 +29,24 @@
 {% block custom_script %}
 <script type='text/javascript'>
 $(function() {
-	country = $('#id_country');
-	province = $('#id_province');
-	city = $('#id_city');
-	
+	country = $('#id_contact_country');
+	province = $('#id_contact_province');
+	city = $('#id_contact_city');
+
+	country.ready(function() {
+		jQuery.getJSON('/api/json/location/countries/', function(data) {
+			country.html('');
+            country.append($("<option />"));
+			$.each(data, function(i, e) {
+				var id = e.pk;
+				var name = e.fields.name;
+				country.append($("<option />").val(id).text(name));
+			});
+		});
+	});
+
 	country.on('change', function() {
-		var countryId = $(this).val();
+		var countryId = $(this).val() ? $(this).val() : 0;
 		jQuery.getJSON('/api/json/location/provinces/' + countryId, function(data) {
 			province.html('');
 			$.each(data, function(i, e) {

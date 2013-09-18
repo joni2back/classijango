@@ -45,7 +45,7 @@ class Classified(models.Model):
     google_map = models.CharField(max_length = 128, null = True)
     contact_name =  models.CharField(max_length = 64, null = True)
     contact_email = models.CharField(max_length = 128, null = True)
-    contact_location = models.ForeignKey(City)
+    contact_location = models.ForeignKey(City, blank = True, null = True)
     contact_address = models.CharField(max_length = 128, null = True)
     contact_phone = models.CharField(max_length = 64, null = True)
 
