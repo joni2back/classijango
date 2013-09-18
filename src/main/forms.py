@@ -9,10 +9,10 @@ class AddClassifiedForm(ModelForm):
     class Meta:
         model = Classified
         fields = (
-            'title', 'content', 'category',
-            'type', 'currency', 'price',
-            'phone', 'google_map', 'image_1',
-            'image_2', 'image_3',
+            'title', 'content', 'category', 'type', 'currency', 'price',
+            'contact_name', 'contact_email', 'contact_location', 
+            'contact_phone', 'contact_address', 'google_map', 
+            'image_1', 'image_2', 'image_3',
         )
 
 class EditProfileForm(ModelForm):
@@ -33,8 +33,8 @@ class UserRegistrationForm(UserCreationForm):
             raise forms.ValidationError("Passwords don't match")
         return password2
 
-    def save(self, commit=True):
-        user = super(UserCreationForm, self).save(commit=False)
+    def save(self, commit = True):
+        user = super(UserCreationForm, self).save(commit = False)
         user.set_password(self.cleaned_data["password1"])
 
         user.username = self.cleaned_data["username"]

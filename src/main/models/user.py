@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from main.models.locations import City
 
 class UserProfile(User):
-    phone = models.CharField(max_length=64, blank=True, default='')
+    phone = models.CharField(max_length = 64, blank = True, default = '')
     city = models.ForeignKey(City)
     class Meta:
         app_label = "main"

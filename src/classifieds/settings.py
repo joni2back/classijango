@@ -7,8 +7,6 @@ ADMINS = (
     ('joni2back', 'joni2back@gmail.com'),
 )
 
-
-
 MANAGERS = ADMINS
 
 DATABASES = {
@@ -24,7 +22,7 @@ DATABASES = {
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '*']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -69,7 +67,7 @@ STATIC_ROOT = ''
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL = '/assets/'
+STATIC_URL = 'http://breaking:8000/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (

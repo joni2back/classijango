@@ -1,7 +1,7 @@
 from django.db import models
 
 class Country(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length = 96)
     class Meta:
         verbose_name_plural = 'Countries'
         app_label = "main"
@@ -12,7 +12,7 @@ class Country(models.Model):
 
 class Province(models.Model):
     country = models.ForeignKey(Country)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length = 96)
 
     class Meta:
         verbose_name_plural = 'Provinces'
@@ -23,10 +23,10 @@ class Province(models.Model):
         return self.name
 
 class City(models.Model):
-    name = models.CharField(max_length=255)
-    cp = models.IntegerField(max_length=8)
+    name = models.CharField(max_length = 96)
+    cp = models.IntegerField(max_length = 8)
     province = models.ForeignKey(Province)
-    google_map = models.CharField(max_length=128, null=True, blank=True)
+    google_map = models.CharField(max_length = 32, null = True, blank = True)
 
     class Meta:
         verbose_name_plural = 'Cities'
