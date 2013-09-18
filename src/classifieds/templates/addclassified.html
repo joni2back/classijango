@@ -14,4 +14,43 @@
 			<p><input type='submit' class='btn btn-primary ' value='Save'/></p>
 		</fieldset>
 	</form>
+	<select id='provinces'></select>
+	<select id='cities'></select>
+
+
+{% endblock %}
+
+{% block custom_script %}
+<script type='text/javascript'>
+$(function() {
+	country = $('#id_country');
+	province = $('#id_province');
+	city = $('#id_city');
+	
+	country.on('change', function() {
+		var countryId = $(this).val();
+		jQuery.getJSON('/api/json/location/provinces/' + countryId, function(data) {
+			province.html('');
+			$.each(data, function(i, e) {
+				var id = e.pk;
+				var name = e.fields.name;
+				province.append($("<option />").val(id).text(name));
+			});
+		});
+	});
+
+	province.on('change', function() {
+		var provinceId = $(this).val();
+		jQuery.getJSON('/api/json/location/cities/' + provinceId, function(data) {
+			city.html('');
+			$.each(data, function(i, e) {
+				var id = e.pk;
+				var name = e.fields.name;
+				city.append($("<option />").val(id).text(name));
+			});
+		});
+	});
+
+});
+</script>
 {% endblock %}

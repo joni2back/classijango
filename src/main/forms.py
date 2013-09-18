@@ -4,8 +4,12 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from main.models.user import UserProfile
 from main.models.classifieds import Classified
+from main.models.locations import Country, Province, City
 
 class AddClassifiedForm(ModelForm):
+    country = forms.ModelChoiceField(queryset = Country.objects.all(), required = False)
+    province = forms.ChoiceField(required = False)
+    city = forms.ChoiceField(required = False)
     class Meta:
         model = Classified
         fields = (
