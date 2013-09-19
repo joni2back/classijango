@@ -73,12 +73,12 @@
       {% block header %}{% endblock %}
       {% block main_content %}{% endblock %}
     </div>
+
     <footer>
-      
     </footer>
-    <script src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+
+    <script src='{{STATIC_URL}}js/jquery.min.js'></script>
     <script src='{{STATIC_URL}}js/bootstrap.js'></script>
     {% block custom_script %}{% endblock %}
   </body>
 </html>
-
