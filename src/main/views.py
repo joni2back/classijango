@@ -7,26 +7,42 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers
-import json
+from json import dumps
 
 JSON_INDENT = None
 
-def jsonCountries(request):
-    data = Country.objects.all()
-    data = serializers.serialize("json", data, indent = JSON_INDENT)
-    return HttpResponse(data, mimetype = "application/json")
+#def jsonCountries(request):
+#    data = Country.objects.all()
+#    data = serializers.serialize("json", data, indent = JSON_INDENT)
+#    return HttpResponse(data, mimetype = "application/json")
 
-def jsonProvinces(request, countryId):
-    data = Province.objects.filter(country = countryId)
-    data = serializers.serialize("json", data, indent = JSON_INDENT)
-    return HttpResponse(data, mimetype = "application/json")
+#def jsonProvinces(request, countryId):
+#    data = Province.objects.filter(country = countryId)
+#    data = serializers.serialize("json", data, indent = JSON_INDENT)
+#    return HttpResponse(data, mimetype = "application/json")
 
-def jsonCities(request, provinceId):
-    data = City.objects.filter(province = provinceId)
-    data = serializers.serialize("json", data, indent = JSON_INDENT)
-    return HttpResponse(data, mimetype = "application/json")
+#def jsonCities(request, provinceId):
+#    data = City.objects.filter(province = provinceId)
+#    data = serializers.serialize("json", data, indent = JSON_INDENT)
+#    return HttpResponse(data, mimetype = "application/json")
+
+@csrf_exempt
+def jsonCities(request):
+    list = []
+    if request.method == 'POST':
+        cityName = request.POST.get('cityName')
+        cities = City.objects.filter(name__icontains = cityName)[:40]
+        for city in cities:
+            data = {
+                "id": getattr(city, 'id'),
+                "name": u"%s - %s - %s" % (city.name, city.province.name, city.province.country.name)
+            }
+            list.append(data)
+    return HttpResponse(dumps(list), mimetype = "application/json")
+
 
 def viewClassified(request):
     classifieds = Classified.objects.all()

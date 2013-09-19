@@ -13,9 +13,8 @@
                 <tr>
                     <th><label for="id_contact_city">Contact City:</label></th>
                     <td>
-                        <select name='id_contact_country' id='id_contact_country'></select>
-                        <select name='id_contact_province' id='id_contact_province'></select>
-                        <select name='id_contact_city' id='id_contact_city'></select>
+                        <input type="text" name='contact_city' id='contact_city' data-provide="typeahead" class="input-xlarge" />
+                        <input name='id_contact_city' id='id_contact_city' type="hidden" />
                     </td>
                 </tr>
 			</table>
@@ -27,52 +26,29 @@
 {% block custom_script %}
 <script type='text/javascript'>
 $(function() {
+
 	var fields = {};
+    fields.city = $('#contact_city');
+    fields.cityId = $('#id_contact_city');
+    fields.city.citiesName = [];
+    fields.city.citiesId = {};
 
-	fields.country = $('#id_contact_country');
-	fields.province = $('#id_contact_province');
-	fields.city = $('#id_contact_city');
-
-	fields.country.requestValue = '{{ contact_location.country }}';
-	fields.province.requestValue = '{{ contact_location.province }}';
-	fields.city.requestValue = '{{ contact_location.city }}';
-
-	fields.country.ready(function() {
-		jQuery.getJSON('/api/json/location/countries/', function(data) {
-			fields.country.html('');
-            fields.country.append($("<option />"));
-			$.each(data, function(i, e) {
-				var id = e.pk;
-				var name = e.fields.name;
-				fields.country.append($("<option />").val(id).text(name));
-			});
-		});
-	});
-
-	fields.country.on('change', function() {
-		var countryId = $(this).val() ? $(this).val() : 0;
-		jQuery.getJSON('/api/json/location/provinces/' + countryId, function(data) {
-			fields.province.html('');
-			fields.city.html('');
-			$.each(data, function(i, e) {
-				var id = e.pk;
-				var name = e.fields.name;
-				fields.province.append($("<option />").val(id).text(name));
-			});
-		});
-	});
-
-	fields.province.on('change', function() {
-		var provinceId = $(this).val();
-		jQuery.getJSON('/api/json/location/cities/' + provinceId, function(data) {
-			fields.city.html('');
-			$.each(data, function(i, e) {
-				var id = e.pk;
-				var name = e.fields.name;
-				fields.city.append($("<option />").val(id).text(name));
-			});
-		});
-	});
+   fields.city.typeahead({
+        source: function (query, process) {
+            return $.post('/api/json/location/cities/', {"cityName": query}, function (data) {
+                $.each(data, function (i, city) {
+                    fields.city.citiesName.push(city.name);
+                    fields.city.citiesId[city.name] = city.id;
+                });
+                return process(fields.city.citiesName);
+            });
+        }
+        ,updater: function (item) {
+            var value = fields.city.citiesId[item];
+            fields.cityId.val(value);
+            return item;
+        }
+    });
 
 });
 </script>

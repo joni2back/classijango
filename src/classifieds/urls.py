@@ -9,15 +9,14 @@ from django.conf.urls import *
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Uncomment the next line to enable the admin:
-    url(r'^admin/', include(admin.site.urls)),
     url(r'^assets/(?P<path>.*)$','django.views.static.serve',
-        {'document_root':settings.MEDIA_ROOT,}
+        {'document_root':settings.MEDIA_ROOT}
     ),
-    
-    url(r'^api/json/location/cities/(?P<provinceId>[0-9]{0,3})$', 'main.views.jsonCities'),
-    url(r'^api/json/location/provinces/(?P<countryId>[0-9]{0,3})$', 'main.views.jsonProvinces'),
-    url(r'^api/json/location/countries/$', 'main.views.jsonCountries'),
+
+    url(r'^api/json/location/cities', 'main.views.jsonCities'),
+    #url(r'^api/json/location/cities/(?P<provinceId>[0-9]{0,3})$', 'main.views.jsonCities'),
+    #url(r'^api/json/location/provinces/(?P<countryId>[0-9]{0,3})$', 'main.views.jsonProvinces'),
+    #url(r'^api/json/location/countries/$', 'main.views.jsonCountries'),
 
     url(r'^$', 'main.views.index'),    
     url(r'^ads/find/', 'main.views.viewClassified'),
