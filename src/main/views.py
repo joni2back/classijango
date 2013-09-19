@@ -32,7 +32,7 @@ def viewClassified(request):
     classifieds = Classified.objects.all()
 
     return render_to_response(
-        'classified.html',
+        'classifieds/single.html',
         {'classifieds': classifieds}, 
         context_instance = RequestContext(request)
     )
@@ -80,11 +80,15 @@ def myProfile(request):
     )
 
 def addClassified(request):
+    contact_location = dict(city = '', province = '', country = '')
     if request.method == 'POST':
         formset = AddClassifiedForm(request.POST, request.FILES)
+        contact_location['city'] = request.POST.get('id_contact_city');
+        contact_location['province'] = request.POST.get('id_contact_province');
+        contact_location['country'] = request.POST.get('id_contact_country');
         if formset.is_valid():
             classified = formset.save(commit = False)
-            classified.contact_location = request.request.POST['id_contact_city']
+            classified.contact_location = contact_city
 
             #Validate extension/content-type and resize pictures
             if request.user.is_authenticated():
@@ -94,6 +98,9 @@ def addClassified(request):
     else:
         formset = AddClassifiedForm()
     return render_to_response(
-        'addclassified.html', 
-        {'formset': formset}, 
+        'classifieds/create.html', 
+        {
+            'formset': formset,
+            'contact_location': contact_location,
+        }, 
         context_instance = RequestContext(request))

@@ -22,49 +22,54 @@
             <p><input type='submit' class='btn btn-primary ' value='Save'/></p>
 		</fieldset>
 	</form>
-
-
 {% endblock %}
 
 {% block custom_script %}
 <script type='text/javascript'>
 $(function() {
-	country = $('#id_contact_country');
-	province = $('#id_contact_province');
-	city = $('#id_contact_city');
+	var fields = {};
 
-	country.ready(function() {
+	fields.country = $('#id_contact_country');
+	fields.province = $('#id_contact_province');
+	fields.city = $('#id_contact_city');
+
+	fields.country.requestValue = '{{ contact_location.country }}';
+	fields.province.requestValue = '{{ contact_location.province }}';
+	fields.city.requestValue = '{{ contact_location.city }}';
+
+	fields.country.ready(function() {
 		jQuery.getJSON('/api/json/location/countries/', function(data) {
-			country.html('');
-            country.append($("<option />"));
+			fields.country.html('');
+            fields.country.append($("<option />"));
 			$.each(data, function(i, e) {
 				var id = e.pk;
 				var name = e.fields.name;
-				country.append($("<option />").val(id).text(name));
+				fields.country.append($("<option />").val(id).text(name));
 			});
 		});
 	});
 
-	country.on('change', function() {
+	fields.country.on('change', function() {
 		var countryId = $(this).val() ? $(this).val() : 0;
 		jQuery.getJSON('/api/json/location/provinces/' + countryId, function(data) {
-			province.html('');
+			fields.province.html('');
+			fields.city.html('');
 			$.each(data, function(i, e) {
 				var id = e.pk;
 				var name = e.fields.name;
-				province.append($("<option />").val(id).text(name));
+				fields.province.append($("<option />").val(id).text(name));
 			});
 		});
 	});
 
-	province.on('change', function() {
+	fields.province.on('change', function() {
 		var provinceId = $(this).val();
 		jQuery.getJSON('/api/json/location/cities/' + provinceId, function(data) {
-			city.html('');
+			fields.city.html('');
 			$.each(data, function(i, e) {
 				var id = e.pk;
 				var name = e.fields.name;
-				city.append($("<option />").val(id).text(name));
+				fields.city.append($("<option />").val(id).text(name));
 			});
 		});
 	});
