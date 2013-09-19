@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 from main.models.classifieds import *
 from main.models.user import UserProfile
-from main.models.locations import Country, Province, City
+from main.models.locations import City
 from main.forms import *
-from django.shortcuts import render_to_response, get_object_or_404
+from main.helpers import ucwords
+from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect
-from django.core import serializers
 from json import dumps
 
 JSON_INDENT = None
@@ -34,11 +34,15 @@ def jsonCities(request):
     list = []
     if request.method == 'POST':
         cityName = request.POST.get('cityName')
-        cities = City.objects.filter(name__icontains = cityName)[:40]
+        cities = City.objects.filter(name__icontains = cityName)[:15]
         for city in cities:
             data = {
                 "id": getattr(city, 'id'),
-                "name": u"%s - %s - %s" % (city.name, city.province.name, city.province.country.name)
+                "name": u"%s - %s - %s" % (
+                    ucwords(city.name.lower()),
+                    ucwords(city.province.name.lower()),
+                    ucwords(city.province.country.name.lower()),
+                )
             }
             list.append(data)
     return HttpResponse(dumps(list), mimetype = "application/json")

@@ -9,14 +9,14 @@
 		<fieldset>
 			{% csrf_token %}
 			<table class='table table-striped table-bordered table-hover '>
-				{{ formset }}
                 <tr>
                     <th><label for="id_contact_city">Contact City:</label></th>
                     <td>
-                        <input type="text" name='contact_city' id='contact_city' data-provide="typeahead" class="input-xlarge" />
+                        <input type="text" name='contact_city' id='contact_city' data-provide="typeahead" class="input-xlarge" autocomplete="off" />
                         <input name='id_contact_city' id='id_contact_city' type="hidden" />
                     </td>
                 </tr>
+                {{ formset }}
 			</table>
             <p><input type='submit' class='btn btn-primary ' value='Save'/></p>
 		</fieldset>
@@ -30,12 +30,14 @@ $(function() {
 	var fields = {};
     fields.city = $('#contact_city');
     fields.cityId = $('#id_contact_city');
-    fields.city.citiesName = [];
-    fields.city.citiesId = {};
 
-   fields.city.typeahead({
+    fields.city.typeahead({
+        items: 15,
+        minLength: 3,
         source: function (query, process) {
             return $.post('/api/json/location/cities/', {"cityName": query}, function (data) {
+                fields.city.citiesName = [];
+                fields.city.citiesId = {};
                 $.each(data, function (i, city) {
                     fields.city.citiesName.push(city.name);
                     fields.city.citiesId[city.name] = city.id;
