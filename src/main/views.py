@@ -34,7 +34,7 @@ def jsonCities(request):
     list = []
     if request.method == 'POST':
         cityName = request.POST.get('cityName')
-        cities = City.objects.filter(name__icontains = cityName)[:15]
+        cities = City.objects.filter(name__istartswith = cityName)[:15]
         for city in cities:
             data = {
                 "id": getattr(city, 'id'),
@@ -108,8 +108,10 @@ def addClassified(request):
         contact_location['country'] = request.POST.get('id_contact_country');
         if formset.is_valid():
             classified = formset.save(commit = False)
-            classified.contact_location = contact_city
-
+            try:
+                classified.contact_location = City.objects.get(pk = contact_location['city'])
+            except:
+                None
             #Validate extension/content-type and resize pictures
             if request.user.is_authenticated():
                 classified.user = request.user
@@ -123,4 +125,5 @@ def addClassified(request):
             'formset': formset,
             'contact_location': contact_location,
         }, 
-        context_instance = RequestContext(request))
+        context_instance = RequestContext(request)
+    )
