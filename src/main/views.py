@@ -8,6 +8,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.forms.formsets import formset_factory
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect
 from json import dumps
@@ -85,7 +86,6 @@ def registerUser(request):
 @login_required
 def myProfile(request):
     user = UserProfile.objects.get(pk = request.user.id)
-
     if request.method == 'POST':
         formset = EditProfileForm(request.POST, instance = user)
         if formset.is_valid():
@@ -100,30 +100,39 @@ def myProfile(request):
     )
 
 def addClassified(request):
-    contact_location = dict(city = '', province = '', country = '')
     if request.method == 'POST':
         formset = AddClassifiedForm(request.POST, request.FILES)
-        contact_location['city'] = request.POST.get('id_contact_city');
-        contact_location['province'] = request.POST.get('id_contact_province');
-        contact_location['country'] = request.POST.get('id_contact_country');
         if formset.is_valid():
             classified = formset.save(commit = False)
             try:
-                classified.contact_location = City.objects.get(pk = contact_location['city'])
+                classified.contact_location = City.objects.get(pk = request.POST.get('id_contact_city'))
             except:
                 None
             #Validate extension/content-type and resize pictures
             if request.user.is_authenticated():
                 classified.user = request.user
+            #Save city
             classified.save()
             return HttpResponseRedirect('/')
     else:
-        formset = AddClassifiedForm()
+        #Populate every user data field
+        formset = formset_factory(AddClassifiedForm, extra = 0)
+        formset = formset(initial = [
+            getDefaultUserData(request)
+        ])
     return render_to_response(
         'classifieds/create.html', 
         {
             'formset': formset,
-            'contact_location': contact_location,
         }, 
         context_instance = RequestContext(request)
     )
+
+def getDefaultUserData(request):
+    userData = dict(contact_name = '', contact_email = '', contact_phone = '')
+    if request.user.id:
+        user =  UserProfile.objects.get(pk = request.user.id)
+        userData['contact_name'] = user.first_name
+        userData['contact_email'] = user.email
+        userData['contact_phone'] = user.phone
+    return userData

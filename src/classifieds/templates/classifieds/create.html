@@ -12,8 +12,7 @@
                 <tr>
                     <th><label for="id_contact_city">Contact City:</label></th>
                     <td>
-                        <input type="text" name='contact_city' id='contact_city' data-provide="typeahead" class="input-xlarge" autocomplete="off" />
-                        <input name='id_contact_city' id='id_contact_city' type="hidden" />
+                        {% include 'misc/fields/ajax_city.html' %}
                     </td>
                 </tr>
                 {{ formset }}
