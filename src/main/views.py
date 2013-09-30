@@ -104,7 +104,7 @@ def addClassified(request):
             classified = formset.save(commit = False)
             try:
                 #Workaround to save the city by ajax helper
-                classified.contact_location = City.objects.get(pk = request.POST.get('id_contact_city'))
+                classified.contact_location = City.objects.get(pk = request.POST.get('contact_city_id'))
             except:
                 None
 
@@ -121,6 +121,8 @@ def addClassified(request):
         'classifieds/create.html', 
         {
             'formset': formset,
+            'contact_city': formset,
+            'contact_city_id': formset,
         }, 
         context_instance = RequestContext(request)
     )
