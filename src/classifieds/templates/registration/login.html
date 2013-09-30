@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Sign In{% endblock %}
 {% block header %} 
-	<h1>Classijango login</h1>
+	<h1>Login</h1>
 {% endblock %}
 
 {% block main_content %}
@@ -9,14 +9,7 @@
 		<fieldset>
 			{% csrf_token %}
 			<table class='table table-striped table-bordered table-hover '>
-			<tr>
-			    <td>{{ form.username.label_tag }}</td>
-			    <td>{{ form.username }}</td>
-			</tr>
-			<tr>
-			    <td>{{ form.password.label_tag }}</td>
-			    <td>{{ form.password }}</td>
-			</tr>
+				{{ form }}
 			</table>
 			<input type="submit" class="btn btn-primary btn-large" value="Sign in" />
 			<input type="hidden" name="next" value="{{ next }}" />

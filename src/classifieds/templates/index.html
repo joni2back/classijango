@@ -2,16 +2,15 @@
 {% block title %}Create an ad{% endblock %}
 
 {% block header %} 
-	<h1>The classijango matrix</h1>
+	<h1>Classijango</h1>
 {% endblock %}
 
 {% block main_content %}
 	{% if not user.is_authenticated %}
-		<div>Hey u! do you want to <a href='/accounts/login'>login</a> ?</div>
+		<div>If you want to edit your articles, you need to <a href='/accounts/login'>login</a></div>
 	{% else %}
 		<div>Hello <strong>{{ request.user.username }}</strong></div>
-		<div>My profile section is coming soon ;)</div>
-		<div>But u now can <a href='/accounts/logout'>Logout</a></div>
+		<div>Update my <a href='/accounts/profile'>basic info</a></div>
+		<div><a href='/accounts/logout'>Logout</a></div>
 	{% endif %}
-	
 {% endblock %}

@@ -7,10 +7,6 @@ from main.models.classifieds import Classified
 from main.models.locations import Country, Province, City
 
 class AddClassifiedForm(ModelForm):
-    #contact_country = forms.ModelChoiceField(queryset = Country.objects.all(), required = False)
-    #contact_province = forms.ChoiceField(required = False)
-    #contact_city = forms.ChoiceField(required = False)
-    
     class Meta:
         model = Classified
         fields = (
@@ -19,7 +15,6 @@ class AddClassifiedForm(ModelForm):
             'contact_phone', 'contact_address', 'google_map', 
             'image_1', 'image_2', 'image_3',
         )
-
 
 class EditProfileForm(ModelForm):
     class Meta:
@@ -30,7 +25,7 @@ class UserRegistrationForm(UserCreationForm):
     email = forms.CharField()
     class Meta:
         model = UserProfile
-        fields = ('username', 'email', 'phone', 'city')
+        fields = ('username', 'email', 'phone',)
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")

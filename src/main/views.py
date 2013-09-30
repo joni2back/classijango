@@ -8,27 +8,10 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from django.forms.formsets import formset_factory
 from django.views.decorators.csrf import csrf_exempt
+from django.forms.formsets import formset_factory
 from django.http import HttpResponse, HttpResponseRedirect
 from json import dumps
-
-JSON_INDENT = None
-
-#def jsonCountries(request):
-#    data = Country.objects.all()
-#    data = serializers.serialize("json", data, indent = JSON_INDENT)
-#    return HttpResponse(data, mimetype = "application/json")
-
-#def jsonProvinces(request, countryId):
-#    data = Province.objects.filter(country = countryId)
-#    data = serializers.serialize("json", data, indent = JSON_INDENT)
-#    return HttpResponse(data, mimetype = "application/json")
-
-#def jsonCities(request, provinceId):
-#    data = City.objects.filter(province = provinceId)
-#    data = serializers.serialize("json", data, indent = JSON_INDENT)
-#    return HttpResponse(data, mimetype = "application/json")
 
 @csrf_exempt
 def jsonCities(request):
@@ -86,6 +69,7 @@ def registerUser(request):
 @login_required
 def myProfile(request):
     user = UserProfile.objects.get(pk = request.user.id)
+
     if request.method == 'POST':
         formset = EditProfileForm(request.POST, instance = user)
         if formset.is_valid():
@@ -105,17 +89,17 @@ def addClassified(request):
         if formset.is_valid():
             classified = formset.save(commit = False)
             try:
+                #Workaround to save the city by ajax helper
                 classified.contact_location = City.objects.get(pk = request.POST.get('id_contact_city'))
             except:
                 None
-            #Validate extension/content-type and resize pictures
+
+            #TODO: Validate extension/content-type and resize the pictures
             if request.user.is_authenticated():
                 classified.user = request.user
-            #Save city
             classified.save()
             return HttpResponseRedirect('/')
     else:
-        #Populate every user data field
         formset = formset_factory(AddClassifiedForm, extra = 0)
         formset = formset(initial = [
             getDefaultUserData(request)
