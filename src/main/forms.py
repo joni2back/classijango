@@ -43,3 +43,6 @@ class UserRegistrationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class SerarchForm(forms.Form):
+    search = forms.CharField(max_length=100)

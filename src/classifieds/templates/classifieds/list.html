@@ -6,6 +6,14 @@
 
 
 {% block main_content %}
+    <form id='create-ad' method='get' class='form-horizontal'>
+        <fieldset>
+            <table class='table table-striped table-bordered table-hover '>
+                {% include 'misc/search/classifieds.html' %}
+            </table>
+        </fieldset>
+    </form>
+
 	<div class="row-fluid marketing">
 		{% for classified in classifieds %}
 	        <div class="span6">

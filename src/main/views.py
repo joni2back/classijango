@@ -4,6 +4,7 @@ from main.models.user import UserProfile
 from main.models.locations import City
 from main.forms import *
 from main.helpers import ucwords
+from django.db.models import Q
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib import auth
@@ -13,12 +14,17 @@ from django.forms.formsets import formset_factory
 from django.http import HttpResponse, HttpResponseRedirect
 from json import dumps
 
+from main.helpers import *
+import sys
+
+
 @csrf_exempt
 def jsonCities(request):
     list = []
     if request.method == 'POST':
         cityName = request.POST.get('cityName')
         cities = City.objects.filter(name__istartswith = cityName)[:15]
+
         for city in cities:
             data = {
                 "id": getattr(city, 'id'),
@@ -31,13 +37,21 @@ def jsonCities(request):
             list.append(data)
     return HttpResponse(dumps(list), mimetype = "application/json")
 
-
 def viewClassified(request):
-    classifieds = Classified.objects.all()
-
+    results = 15
+    search_form = SerarchForm()
+    if request.GET.get('search'):
+        query = request.GET.get('search')
+        search_query = Search.get_query(query, ['title', 'content'])
+        classifieds = Classified.objects.filter(search_query)[:results]
+    else:
+        classifieds = Classified.objects.all()[:results]
     return render_to_response(
-        'classifieds/single.html',
-        {'classifieds': classifieds}, 
+        'classifieds/list.html',
+        {
+            'classifieds': classifieds,
+            'search_form': search_form
+        }, 
         context_instance = RequestContext(request)
     )
 
@@ -100,10 +114,9 @@ def addClassified(request):
             classified.save()
             return HttpResponseRedirect('/')
     else:
-        formset = formset_factory(AddClassifiedForm, extra = 0)
-        formset = formset(initial = [
-            getDefaultUserData(request)
-        ])
+        formset = AddClassifiedForm(
+            initial = getDefaultUserData(request)
+        )
     return render_to_response(
         'classifieds/create.html', 
         {
