@@ -14,12 +14,20 @@
         </fieldset>
     </form>
 
-	<div class="row-fluid marketing">
-		{% for classified in classifieds %}
-	        <div class="span6">
-	          <h4>{{ classified.title }}</h4>
-	          <p>{{ classified.content }}</p>
-	        </div>
-		{% endfor %}
-	</div>
+    <div id="preview">
+    <ul class="thumbnails">
+    {% for classified in classifieds %}
+      <li class="span3">
+        <div class="thumbnail">
+          <img src="http://placehold.it/320x200" alt="ALT NAME">
+          <div class="caption">
+            <h4><a href='/ads/{{ classified.url }}'>{{ classified.title }}</a></h4>
+            <p>{{ classified.content }}</p>
+          </div>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    </div>
+
 {% endblock %}

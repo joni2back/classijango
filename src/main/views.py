@@ -3,7 +3,7 @@ from main.models.classifieds import *
 from main.models.user import UserProfile
 from main.models.locations import City
 from main.forms import *
-from main.helpers import ucwords
+from main.helpers import *
 from django.db.models import Q
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -13,10 +13,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.forms.formsets import formset_factory
 from django.http import HttpResponse, HttpResponseRedirect
 from json import dumps
-
-from main.helpers import *
-import sys
-
 
 @csrf_exempt
 def jsonCities(request):
@@ -37,7 +33,7 @@ def jsonCities(request):
             list.append(data)
     return HttpResponse(dumps(list), mimetype = "application/json")
 
-def viewClassified(request):
+def listClassifieds(request):
     results = 15
     search_form = SerarchForm()
     if request.GET.get('search'):
@@ -46,11 +42,24 @@ def viewClassified(request):
         classifieds = Classified.objects.filter(search_query)[:results]
     else:
         classifieds = Classified.objects.all()[:results]
+
+    for classified in classifieds:
+        classified.url = Seo.prepareClassifiedUrl(classified)
     return render_to_response(
         'classifieds/list.html',
         {
             'classifieds': classifieds,
             'search_form': search_form
+        }, 
+        context_instance = RequestContext(request)
+    )
+
+def viewClassified(request, classifiedTitle, classifiedId):
+    classified = Classified.objects.get(pk = classifiedId)
+    return render_to_response(
+        'classifieds/view.html',
+        {
+            'classified': classified,
         }, 
         context_instance = RequestContext(request)
     )

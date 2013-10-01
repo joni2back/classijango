@@ -27,3 +27,10 @@ class Search:
             else:
                 query = query & or_query
         return query
+
+class Seo:
+
+    @staticmethod
+    def prepareClassifiedUrl(classified, max_length = 32):
+        url = "%s-%d" % (classified.title[:max_length].lower().replace(' ', ''), classified.id)
+        return url

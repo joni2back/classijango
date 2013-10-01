@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Signup{% endblock %}
+{% block header %} 
+    <h1>Classifieds list</h1>
+{% endblock %}
+
+
+{% block main_content %}
+    <div class="row-fluid marketing">
+
+        <div class="span6">
+          <h4>{{ classified.title }}</h4>
+          <p>{{ classified.content }}</p>
+        </div>
+
+    </div>
+{% endblock %}
