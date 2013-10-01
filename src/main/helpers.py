@@ -3,7 +3,7 @@ from uuid import uuid4
 from django.db.models import Q
 
 def ucwords(string):
-    return " ".join([w[0].upper() + w[1:] for w in re.split('\s*', string)])
+    return " ".join([w[0].upper() + w[1:] for w in re.split('\s*', string.lower())])
 
 class Search:
 

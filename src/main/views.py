@@ -25,9 +25,9 @@ def jsonCities(request):
             data = {
                 "id": getattr(city, 'id'),
                 "name": u"%s - %s - %s" % (
-                    ucwords(city.name.lower()),
-                    ucwords(city.province.name.lower()),
-                    ucwords(city.province.country.name.lower()),
+                    ucwords(city.name),
+                    ucwords(city.province.name),
+                    ucwords(city.province.country.name),
                 )
             }
             list.append(data)
@@ -45,6 +45,7 @@ def listClassifieds(request):
 
     for classified in classifieds:
         classified.url = Seo.prepareClassifiedUrl(classified)
+        classified.content = classified.content[:200]
     return render_to_response(
         'classifieds/list.html',
         {
@@ -85,24 +86,32 @@ def registerUser(request):
         formset = UserRegistrationForm()
     return render_to_response(
         'registration/register.html', 
-        {'formset': formset}, 
+        {
+            'formset': formset
+        }, 
         context_instance = RequestContext(request)
     )
 
 @login_required
 def myProfile(request):
     user = UserProfile.objects.get(pk = request.user.id)
-
     if request.method == 'POST':
         formset = EditProfileForm(request.POST, instance = user)
         if formset.is_valid():
-            formset.save()
+            userprofile = formset.save(commit = False)
+            try:
+                user.city = City.objects.get(pk = request.POST.get('contact_city_id'))
+            except:
+                None
+            userprofile.save()
             return HttpResponseRedirect('/')
     else:
-        formset = EditProfileForm(instance = user)
+        formset = EditProfileForm(instance = user, initial = getDefaultUserData(request))
     return render_to_response(
         'registration/profile.html', 
-        {'formset': formset}, 
+        {
+            'formset': formset
+        }, 
         context_instance = RequestContext(request)
     )
 
@@ -128,17 +137,19 @@ def addClassified(request):
         'classifieds/create.html', 
         {
             'formset': formset,
-            'contact_city': formset,
-            'contact_city_id': formset,
         }, 
         context_instance = RequestContext(request)
     )
 
 def getDefaultUserData(request):
-    userData = dict(contact_name = '', contact_email = '', contact_phone = '')
+    userData = {}
     if request.user.id:
         user =  UserProfile.objects.get(pk = request.user.id)
-        userData['contact_name'] = user.first_name
-        userData['contact_email'] = user.email
-        userData['contact_phone'] = user.phone
+        userData =  {
+            'contact_name': user.first_name,
+            'contact_email': user.email,
+            'contact_phone': user.phone,
+            'contact_city_id': user.city.id,
+            'contact_city': ucwords(user.city.name), 
+        }
     return userData

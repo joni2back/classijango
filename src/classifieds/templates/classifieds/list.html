@@ -19,10 +19,12 @@
     {% for classified in classifieds %}
       <li class="span3">
         <div class="thumbnail">
-          <img src="http://placehold.it/320x200" alt="ALT NAME">
+          <a href='/ads/{{ classified.url }}'>
+            <img src="/assets/{{ classified.image_1 }}" alt="{{ classified.title }}" />
+          </a>
           <div class="caption">
             <h4><a href='/ads/{{ classified.url }}'>{{ classified.title }}</a></h4>
-            <p>{{ classified.content }}</p>
+            <p>{{ classified.content }}...</p>
           </div>
         </div>
       </li>

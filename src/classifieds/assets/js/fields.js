@@ -17,12 +17,14 @@ $(function() {
                 });
                 return process(fields.city.citiesName);
             });
-        }
-        ,updater: function (item) {
+        },
+        updater: function (item) {
             var value = fields.city.citiesId[item];
             fields.cityId.val(value);
             return item;
         }
     });
+    
+    fields.cityId.parents('tr').hide();
 
 });
