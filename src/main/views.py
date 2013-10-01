@@ -116,8 +116,6 @@ def addClassified(request):
                 classified.contact_location = City.objects.get(pk = request.POST.get('contact_city_id'))
             except:
                 None
-
-            #TODO: Validate extension/content-type and resize the pictures
             if request.user.is_authenticated():
                 classified.user = request.user
             classified.save()

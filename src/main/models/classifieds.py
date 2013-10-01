@@ -1,9 +1,10 @@
+import datetime, calendar
 from django.db import models
+from django.contrib.auth.models import User
 from main.models.categories import ClassifiedCategory
 from main.models.status import ClassifiedStatus
 from main.models.locations import City, Province
-from django.contrib.auth.models import User
-import datetime, calendar, Image
+from main.helpers import Upload
 
 CLASSIFIED_EXPIRATION_MONTHS = 1
 
@@ -49,9 +50,9 @@ class Classified(models.Model):
     contact_address = models.CharField(max_length = 128, null = True)
     contact_phone = models.CharField(max_length = 64, null = True)
 
-    image_1 = models.ImageField(upload_to = 'images', blank = True)
-    image_2 = models.ImageField(upload_to = 'images', blank = True)
-    image_3 = models.ImageField(upload_to = 'images', blank = True)
+    image_1 = models.ImageField(upload_to = Upload.random_file_name('uploads'), blank = True)
+    image_2 = models.ImageField(upload_to = Upload.random_file_name('uploads'), blank = True)
+    image_3 = models.ImageField(upload_to = Upload.random_file_name('uploads'), blank = True)
 
     class Meta:
         verbose_name_plural = 'Classifieds'

@@ -1,5 +1,6 @@
+import os, re
+from uuid import uuid4
 from django.db.models import Q
-import re
 
 def ucwords(string):
     return " ".join([w[0].upper() + w[1:] for w in re.split('\s*', string)])
@@ -12,10 +13,10 @@ class Search:
 
     @staticmethod
     def get_query(query_string, search_fields):
-        query = None # Query to search for every search term        
+        query = None
         terms = Search.normalize_query(query_string)
         for term in terms:
-            or_query = None # Query to search for a given term in each field
+            or_query = None
             for field_name in search_fields:
                 q = Q(**{"%s__icontains" % field_name: term})
                 if or_query is None:
@@ -34,3 +35,13 @@ class Seo:
     def prepareClassifiedUrl(classified, max_length = 32):
         url = "%s-%d" % (classified.title[:max_length].lower().replace(' ', ''), classified.id)
         return url
+
+class Upload:
+
+    @staticmethod
+    def random_file_name(path):
+        def wrapper(instance, filename):
+            ext = filename.split('.')[-1]
+            filename = '{}.{}'.format(uuid4().hex, ext)
+            return os.path.join(path, filename)
+        return wrapper
