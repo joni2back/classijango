@@ -11,12 +11,19 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'dj_classifieds',                      # Or path to database file if using sqlite3.
+        #USE: CREATE DATABASE dj_classifieds CHARACTER SET utf8;
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dj_classifieds',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': 'localhost',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+        'HOST': 'localhost',
+        'PORT': '',
+        'OPTIONS': {
+            'init_command': 'SET storage_engine=INNODB;',
+            'charset': 'utf8',
+        },
+        'TEST_CHARSET': 'utf8',
+        'TEST_COLLATION': 'utf8_general_ci',
     }
 }
 
@@ -33,7 +40,7 @@ TIME_ZONE = 'America/Chicago'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 # LANGUAGE_CODE = 'en-us'
-LANGUAGE_CODE = 'es-es'
+LANGUAGE_CODE = 'en-us'
 
 SITE_ID = 1
 

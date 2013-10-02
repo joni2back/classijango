@@ -34,7 +34,7 @@ def jsonCities(request):
     return HttpResponse(dumps(list), mimetype = "application/json")
 
 def listClassifieds(request):
-    results = 15
+    results = 25
     search_form = SerarchForm()
     if request.GET.get('search'):
         query = request.GET.get('search')
@@ -149,7 +149,10 @@ def getDefaultUserData(request):
             'contact_name': user.first_name,
             'contact_email': user.email,
             'contact_phone': user.phone,
-            'contact_city_id': user.city.id,
-            'contact_city': ucwords(user.city.name), 
         }
+        if user.city:
+            userData.update({
+                'contact_city': ucwords(user.city.name),
+                'contact_city_id': user.city.id,
+            })
     return userData

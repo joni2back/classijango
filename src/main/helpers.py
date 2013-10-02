@@ -1,6 +1,7 @@
 import os, re
 from uuid import uuid4
 from django.db.models import Q
+from django.utils import encoding
 
 def ucwords(string):
     return " ".join([w[0].upper() + w[1:] for w in re.split('\s*', string.lower())])
@@ -33,7 +34,8 @@ class Seo:
 
     @staticmethod
     def prepareClassifiedUrl(classified, max_length = 32):
-        url = "%s-%d" % (classified.title[:max_length].lower().replace(' ', ''), classified.id)
+        title = re.sub('[^0-9a-zA-Z]+', ' ', classified.title).strip()
+        url = "%s:%d" % (title[:max_length].lower().replace(' ', '-'), classified.id)
         return url
 
 class Upload:

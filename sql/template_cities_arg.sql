@@ -19,10 +19,10 @@
 -- Table structure for table `main_location_provinces`
 --
 
-DROP TABLE IF EXISTS `main_location_provinces`;
+-- #DROP TABLE IF EXISTS `main_location_provinces`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `main_location_provinces` (
+CREATE TABLE IF NOT EXISTS `main_location_provinces` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `country_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
