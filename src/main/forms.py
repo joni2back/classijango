@@ -8,8 +8,8 @@ from main.models.locations import Country, Province, City
 
 
 class AddClassifiedForm(ModelForm):
-    contact_city = forms.CharField(max_length = 100, widget = forms.TextInput(attrs = {'autocomplete': 'off'}))
-    contact_city_id = forms.CharField(max_length = 100, widget = forms.TextInput(attrs = {'type': 'hidden'}))
+    city = forms.CharField(max_length = 100, widget = forms.TextInput(attrs = {'autocomplete': 'off'}))
+    city_id = forms.CharField(max_length = 100, widget = forms.TextInput(attrs = {'type': 'hidden'}))
     class Meta:
         model = Classified
         fields = (
@@ -24,8 +24,8 @@ class AddClassifiedForm(ModelForm):
         self.fields['category'].empty_label = 'Please select a category'
 
 class EditProfileForm(ModelForm):
-    contact_city = forms.CharField(max_length = 100, widget = forms.TextInput(attrs = {'autocomplete': 'off'}))
-    contact_city_id = forms.CharField(max_length = 100, widget = forms.TextInput(attrs = {'type': 'hidden'}))
+    city = forms.CharField(max_length = 100, widget = forms.TextInput(attrs = {'autocomplete': 'off'}))
+    city_id = forms.CharField(max_length = 100, widget = forms.TextInput(attrs = {'type': 'hidden'}))
     class Meta:
         model = UserProfile
         fields = ('username', 'email', 'phone', 'first_name', 'last_name', )
