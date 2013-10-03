@@ -1,8 +1,8 @@
 $(function() {
 
 	var fields = {};
-    fields.city = $('#id_contact_city');
-    fields.cityId = $('#id_contact_city_id');
+    fields.city = $('#id_city');
+    fields.cityId = $('#id_city_id');
 
     fields.city.typeahead({
         items: 15,

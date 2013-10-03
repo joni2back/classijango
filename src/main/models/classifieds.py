@@ -34,25 +34,26 @@ class Classified(models.Model):
 
     title = models.CharField(max_length = 255)
     content = models.TextField()
-    user = models.ForeignKey(User, blank = True, null = True)
+    user = models.ForeignKey(User, null = True, blank = True)
     category = models.ForeignKey(ClassifiedCategory)
     status = models.SmallIntegerField(max_length = 1, choices = CLASSIFIED_STATUS, default = 1)
     type = models.CharField(max_length = 12, choices = CLASSIFIED_TYPES, default = 'sale')
     currency = models.CharField(max_length = 12, choices = CLASSIFIED_CURRENCIES, default = 'peso_arg')
     created = models.DateTimeField(auto_now = True)
     expires = models.DateTimeField(default = expirationDate)
-    price = models.FloatField(null = True)
+    price = models.FloatField()
     
-    google_map = models.CharField(max_length = 128, null = True)
+    city = models.ForeignKey(City, null = True, blank = True)
+    contact_address = models.CharField(max_length = 128, null = True, blank = True)
+    
     contact_name =  models.CharField(max_length = 64, null = True)
     contact_email = models.CharField(max_length = 128, null = True)
-    contact_location = models.ForeignKey(City, blank = True, null = True)
-    contact_address = models.CharField(max_length = 128, null = True)
-    contact_phone = models.CharField(max_length = 64, null = True)
+    contact_phone = models.CharField(max_length = 64, null = True, blank = True)
+    google_map = models.CharField(max_length = 128, null = True, blank = True)
 
-    image_1 = models.ImageField(upload_to = Upload.random_file_name('uploads'), blank = True)
-    image_2 = models.ImageField(upload_to = Upload.random_file_name('uploads'), blank = True)
-    image_3 = models.ImageField(upload_to = Upload.random_file_name('uploads'), blank = True)
+    image_1 = models.ImageField(upload_to = Upload.random_file_name('classifieds/images'), blank = True)
+    image_2 = models.ImageField(upload_to = Upload.random_file_name('classifieds/images'), blank = True)
+    image_3 = models.ImageField(upload_to = Upload.random_file_name('classifieds/images'), blank = True)
 
     class Meta:
         verbose_name_plural = 'Classifieds'

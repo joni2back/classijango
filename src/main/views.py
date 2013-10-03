@@ -100,7 +100,7 @@ def myProfile(request):
         if formset.is_valid():
             userprofile = formset.save(commit = False)
             try:
-                user.city = City.objects.get(pk = request.POST.get('contact_city_id'))
+                user.city = City.objects.get(pk = request.POST.get('city_id'))
             except:
                 None
             userprofile.save()
@@ -115,6 +115,35 @@ def myProfile(request):
         context_instance = RequestContext(request)
     )
 
+def editClassified(request, classifiedId):
+    #BETA
+    classified = Classified.objects.get(pk = classifiedId)
+    if request.method == 'POST':
+        formset = AddClassifiedForm(request.POST, request.FILES, instance = classified)
+        if formset.is_valid():
+            #Try to dont remove previously images when the user re'edit without attachments
+            classified = formset.save(commit = False)
+            try:
+                classified.city = City.objects.get(pk = request.POST.get('city_id'))
+            except:
+                None
+            if request.user.is_authenticated():
+                classified.user = request.user
+            classified.save()
+            return HttpResponseRedirect('/')
+    else:
+        formset = AddClassifiedForm(
+            instance = classified,
+            initial = getClassifiedExtraData(classified)
+        )
+    return render_to_response(
+        'classifieds/create.html', 
+        {
+            'formset': formset,
+        }, 
+        context_instance = RequestContext(request)
+    )
+
 def addClassified(request):
     if request.method == 'POST':
         formset = AddClassifiedForm(request.POST, request.FILES)
@@ -122,7 +151,7 @@ def addClassified(request):
             classified = formset.save(commit = False)
             try:
                 #Workaround to save the city by ajax helper
-                classified.contact_location = City.objects.get(pk = request.POST.get('contact_city_id'))
+                classified.city = City.objects.get(pk = request.POST.get('city_id'))
             except:
                 None
             if request.user.is_authenticated():
@@ -152,7 +181,16 @@ def getDefaultUserData(request):
         }
         if user.city:
             userData.update({
-                'contact_city': ucwords(user.city.name),
-                'contact_city_id': user.city.id,
+                'city': ucwords(user.city.name),
+                'city_id': user.city.id,
             })
     return userData
+
+def getClassifiedExtraData(classified):
+    classifiedData = {}
+    if classified.id:
+        classifiedData.update({
+            'city': ucwords(classified.city.name),
+            'city_id': classified.city.id,
+        })
+    return classifiedData

@@ -20,11 +20,12 @@
       <li class="span3">
         <div class="thumbnail">
           <a href='/ads/{{ classified.url }}'>
-            <img src="/assets/{{ classified.image_1 }}" alt="{{ classified.title }}" />
+            <img src="/uploads/{{ classified.image_1 }}" alt="{{ classified.title }}" />
           </a>
           <div class="caption">
             <h4><a href='/ads/{{ classified.url }}'>{{ classified.title }}</a></h4>
             <p>{{ classified.content }}...</p>
+            <a class="btn" href="/ads/edit/{{ classified.id }}">Edit</a>
           </div>
         </div>
       </li>
