@@ -37,12 +37,13 @@ def listClassifieds(request):
     results = 25
     search_form = SerarchForm()
     if request.GET.get('search'):
-        query = request.GET.get('search')
-        search_query = Search.get_query(query, ['title', 'content'])
-        classifieds = Classified.objects.filter(search_query)[:results]
+        search_query = Search.get_query(request.GET.get('search'), ['title', 'content'])
+        if request.GET.get('category'):
+            classifieds = Classified.objects.filter(search_query, category = request.GET.get('category'))[:results]
+        else:
+            classifieds = Classified.objects.filter(search_query)[:results]
     else:
         classifieds = Classified.objects.all()[:results]
-
     for classified in classifieds:
         classified.url = Seo.prepareClassifiedUrl(classified)
         classified.content = classified.content[:200]
@@ -50,7 +51,7 @@ def listClassifieds(request):
         'classifieds/list.html',
         {
             'classifieds': classifieds,
-            'search_form': search_form
+            'search_form': search_form,
         }, 
         context_instance = RequestContext(request)
     )

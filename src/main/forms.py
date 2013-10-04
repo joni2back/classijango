@@ -3,7 +3,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from main.models.user import UserProfile
-from main.models.classifieds import Classified
+from main.models.classifieds import Classified, ClassifiedCategory
 from main.models.locations import Country, Province, City
 
 
@@ -54,4 +54,5 @@ class UserRegistrationForm(UserCreationForm):
         return user
 
 class SerarchForm(forms.Form):
+    category = forms.ModelChoiceField(queryset = ClassifiedCategory.objects.all())
     search = forms.CharField(max_length = 100)

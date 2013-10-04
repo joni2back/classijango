@@ -7,7 +7,6 @@ def ucwords(string):
     return " ".join([w[0].upper() + w[1:] for w in re.split('\s*', string.lower())])
 
 class Search:
-
     @staticmethod
     def normalize_query(query_string, findterms=re.compile(r'"([^"]+)"|(\S+)').findall, normspace=re.compile(r'\s{2,}').sub):
         return [normspace(' ', (t[0] or t[1]).strip()) for t in findterms(query_string)] 
@@ -31,7 +30,6 @@ class Search:
         return query
 
 class Seo:
-
     @staticmethod
     def prepareClassifiedUrl(classified, max_length = 32):
         title = re.sub('[^0-9a-zA-Z]+', ' ', classified.title).strip()
@@ -39,7 +37,6 @@ class Seo:
         return url
 
 class Upload:
-
     @staticmethod
     def random_file_name(path):
         def wrapper(instance, filename):
