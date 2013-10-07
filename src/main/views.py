@@ -44,9 +44,9 @@ def listClassifieds(request):
             classifieds = Classified.objects.filter(search_query)[:results]
     else:
         classifieds = Classified.objects.all()[:results]
+
     for classified in classifieds:
         classified.url = Seo.prepareClassifiedUrl(classified)
-        classified.content = classified.content[:200]
     return render_to_response(
         'classifieds/list.html',
         {
