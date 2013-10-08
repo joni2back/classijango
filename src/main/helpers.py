@@ -3,9 +3,6 @@ from uuid import uuid4
 from django.db.models import Q
 from django.utils import encoding
 
-def ucwords(string):
-    return " ".join([w[0].upper() + w[1:] for w in re.split('\s*', string.lower())])
-
 class Search:
     @staticmethod
     def normalize_query(query_string, findterms=re.compile(r'"([^"]+)"|(\S+)').findall, normspace=re.compile(r'\s{2,}').sub):

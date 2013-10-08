@@ -8,7 +8,7 @@ class Country(models.Model):
         db_table = "main_location_countries"
 
     def __unicode__(self):
-        return self.name
+        return self.name.title()
 
 class Province(models.Model):
     country = models.ForeignKey(Country)
@@ -20,7 +20,7 @@ class Province(models.Model):
         db_table = "main_location_provinces"
 
     def __unicode__(self):
-        return self.name
+        return self.name.title()
 
 class City(models.Model):
     name = models.CharField(max_length = 96)
@@ -34,4 +34,4 @@ class City(models.Model):
         db_table = "main_location_cities"
 
     def __unicode__(self):
-        return self.name
+        return self.name.title()

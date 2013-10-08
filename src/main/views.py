@@ -13,6 +13,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.forms.formsets import formset_factory
 from django.http import HttpResponse, HttpResponseRedirect
 from json import dumps
+from PIL import Image, ImageOps
+import StringIO
+
+
 
 @csrf_exempt
 def jsonCities(request):
@@ -25,9 +29,9 @@ def jsonCities(request):
             data = {
                 "id": getattr(city, 'id'),
                 "name": u"%s - %s - %s" % (
-                    ucwords(city.name),
-                    ucwords(city.province.name),
-                    ucwords(city.province.country.name),
+                    city.name.title(),
+                    city.province.name.title(),
+                    city.province.country.name.title(),
                 )
             }
             list.append(data)
@@ -116,9 +120,14 @@ def myProfile(request):
         context_instance = RequestContext(request)
     )
 
+@login_required
 def editClassified(request, classifiedId):
     #BETA
     classified = Classified.objects.get(pk = classifiedId)
+
+    if request.user.id != classified.user.id:
+        return HttpResponseRedirect('/')
+
     if request.method == 'POST':
         formset = AddClassifiedForm(request.POST, request.FILES, instance = classified)
         if formset.is_valid():
@@ -131,7 +140,7 @@ def editClassified(request, classifiedId):
             if request.user.is_authenticated():
                 classified.user = request.user
             classified.save()
-            return HttpResponseRedirect('/')
+            #return HttpResponseRedirect('/')
     else:
         formset = AddClassifiedForm(
             instance = classified,
@@ -182,7 +191,7 @@ def getDefaultUserData(request):
         }
         if user.city:
             userData.update({
-                'city': ucwords(user.city.name),
+                'city': user.city.name.title(),
                 'city_id': user.city.id,
             })
     return userData
@@ -191,7 +200,7 @@ def getClassifiedExtraData(classified):
     classifiedData = {}
     if classified.id:
         classifiedData.update({
-            'city': ucwords(classified.city.name),
+            'city': classified.city.name.title(),
             'city_id': classified.city.id,
         })
     return classifiedData

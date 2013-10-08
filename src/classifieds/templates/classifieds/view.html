@@ -4,12 +4,14 @@
     <h1>Classified</h1>
 {% endblock %}
 
-
 {% block main_content %}
     <div class="row-fluid marketing">
-        <div class="span6">
+        <div class="span">
           <h4>{{ classified }}</h4>
+          <img src="{{MEDIA_URL}}{{ classified.image_1 }}" alt="{{ classified }}" style="width:30%"/>
           <p>{{ classified.content }}</p>
+
+          <a href="/ads/edit/{{ classified.id }}" class="btn btn-big">Edit article</a>
         </div>
     </div>
 {% endblock %}
