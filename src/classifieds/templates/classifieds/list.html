@@ -7,33 +7,32 @@
 
 {% block main_content %}
     <form id='search-ad' method='get' class='form-search'>
-        <fieldset>
-            <table class='table table-striped table-bordered table-hover '>
-                {% include 'misc/search/classifieds.html' %}
-            </table>
-        </fieldset>
+      {% include 'misc/search/classifieds.html' %}
+    </form>
+
+    <form id='search-ad' method='get' class='form-search'>
+      {% include 'misc/search/classifieds_advanced.html' %}
     </form>
 
     <div class="row-fluid">
-
-    <ul class="thumbnails">
-    {% for classified in classifieds %}
-      <li class="span3">
-        <div class="thumbnail" style="padding: 0">
-          <a href='/ads/{{ classified.url }}'>
-            <img src="/uploads/{{ classified.image_1 }}" alt="{{ classified.title }}" />
-          </a>
-          <div class="caption">
-            <h4><a href='/ads/{{ classified.url }}'>{{ classified.title }}</a></h4>
-            <p>{{ classified.content|slice:":200"  }}...</p>
-            <p><i class="icon icon-map-marker"></i> {{ classified.city }}, {{ classified.city.province }}</p>
+      <ul class="thumbnails">
+      {% for classified in classifieds %}
+        <li class="span3">
+          <div class="thumbnail" style="padding: 0">
+            <a href='/ads/{{ classified.url }}'>
+              <img src="/uploads/{{ classified.image_1 }}" alt="{{ classified.title }}" />
+            </a>
+            <div class="caption">
+              <h4><a href='/ads/{{ classified.url }}'>{{ classified.title }}</a></h4>
+              <p>{{ classified.content|slice:":200"  }}...</p>
+              <p><i class="icon icon-map-marker"></i> {{ classified.city }}, {{ classified.city.province }}</p>
+            </div>
+            <div class="modal-footer" style="text-align: center; padding:8px">  
+              <span><b>${{ classified.price }}</b> {{ classified.get_currency_display }}</span>
+              <span> - <b>223{{ classified.visits }}</b> Visits</span>
+            </div>
           </div>
-          <div class="modal-footer" style="text-align: center; padding:8px">  
-            <span><b>${{ classified.price }}</b> {{ classified.get_currency_display }}</span>
-            <span> - <b>223{{ classified.visits }}</b> Visits</span>
-          </div>
-        </div>
-      </li>
+        </li>
       {% endfor %}
       </ul>
     </div>

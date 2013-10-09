@@ -6,22 +6,22 @@ from main.models.status import ClassifiedStatus
 from main.models.locations import City, Province
 from main.helpers import Upload
 
-CLASSIFIED_EXPIRATION_MONTHS = 1
-
-CLASSIFIED_STATUS = (
-    (0, 'Inactivo'),
-    (1, 'Activo'),
-)
-CLASSIFIED_TYPES = (
-    ('sale', 'En venta'),
-    ('rent', 'En alquiler'),
-)
-CLASSIFIED_CURRENCIES = (
-    ('usd', 'Dolares'),
-    ('peso_arg', 'Pesos Arg'),
-)
-
 class Classified(models.Model):
+
+    CLASSIFIED_EXPIRATION_MONTHS = 1
+
+    CLASSIFIED_STATUS = (
+        (0, 'Inactivo'),
+        (1, 'Activo'),
+    )
+    CLASSIFIED_TYPES = (
+        ('sale', 'En venta'),
+        ('rent', 'En alquiler'),
+    )
+    CLASSIFIED_CURRENCIES = (
+        ('usd', 'Dolares'),
+        ('peso_arg', 'Pesos Arg'),
+    )
 
     def add_months(sourcedate, months):
         month = sourcedate.month - 1 + months
