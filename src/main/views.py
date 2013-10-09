@@ -13,10 +13,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.forms.formsets import formset_factory
 from django.http import HttpResponse, HttpResponseRedirect
 from json import dumps
-from PIL import Image, ImageOps
-import StringIO
-
-
 
 @csrf_exempt
 def jsonCities(request):
@@ -139,7 +135,12 @@ def editClassified(request, classifiedId):
                 None
             if request.user.is_authenticated():
                 classified.user = request.user
+            Upload.generate_thumb(classified.image_1)
             classified.save()
+
+            Upload.generate_thumb(classified.image_1)
+            Upload.generate_thumb(classified.image_1, 300, 300)
+            Upload.generate_thumb(classified.image_1, 500, 500)
             #return HttpResponseRedirect('/')
     else:
         formset = AddClassifiedForm(

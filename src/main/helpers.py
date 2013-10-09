@@ -2,6 +2,8 @@ import os, re
 from uuid import uuid4
 from django.db.models import Q
 from django.utils import encoding
+from PIL import Image, ImageOps
+from django.conf import settings
 
 class Search:
     @staticmethod
@@ -41,3 +43,23 @@ class Upload:
             filename = '{}.{}'.format(uuid4().hex, ext)
             return os.path.join(path, filename)
         return wrapper
+
+    @staticmethod
+    def generate_thumb(imagepath, width = 200, height = 200, quality = 75):
+        if not imagepath:
+            return
+        imagepath = str(imagepath)
+
+        image = Image.open(os.path.join(settings.MEDIA_ROOT, imagepath))
+        
+        if image.mode not in ("L", "RGB"):
+            image = image.convert("RGB")
+        ext = str(imagepath).split('.')[-1]
+        filename = str(imagepath).split('.')[0]
+        
+        filename = '{}.thumb.{}.{}'.format(filename, width, ext)
+        filepath = os.path.join(settings.MEDIA_ROOT, filename)
+
+        imagefit = ImageOps.fit(image, (width, height), Image.ANTIALIAS)
+        imagefit.save(filepath, 'JPEG', quality = quality)
+        return filepath
