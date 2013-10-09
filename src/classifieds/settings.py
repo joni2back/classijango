@@ -174,3 +174,23 @@ LOGGING = {
         },
     }
 }
+
+
+CLASSIFIED_THUMBNAILS = [
+    {
+        'width': 150,
+        'height': 150
+    },
+    {
+        'width': 270,
+        'height': 195
+    },
+    {
+        'width': 320,
+        'height': 240
+    },
+    {
+        'width': 500,
+        'height': 400
+    },
+]

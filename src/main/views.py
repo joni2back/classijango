@@ -118,16 +118,18 @@ def myProfile(request):
 
 @login_required
 def editClassified(request, classifiedId):
-    #BETA
+    #TODO: admin user can edit classified
+    #TODO: admin user editing classified must leave original user id as owner of the item
     classified = Classified.objects.get(pk = classifiedId)
 
+    if not classified.user:
+        return HttpResponseRedirect('/')
     if request.user.id != classified.user.id:
         return HttpResponseRedirect('/')
 
     if request.method == 'POST':
         formset = AddClassifiedForm(request.POST, request.FILES, instance = classified)
         if formset.is_valid():
-            #Try to dont remove previously images when the user re'edit without attachments
             classified = formset.save(commit = False)
             try:
                 classified.city = City.objects.get(pk = request.POST.get('city_id'))
@@ -135,12 +137,11 @@ def editClassified(request, classifiedId):
                 None
             if request.user.is_authenticated():
                 classified.user = request.user
-            Upload.generate_thumb(classified.image_1)
+            
             classified.save()
-
-            Upload.generate_thumb(classified.image_1)
-            Upload.generate_thumb(classified.image_1, 300, 300)
-            Upload.generate_thumb(classified.image_1, 500, 500)
+            Upload.generate_classified_thumbs(classified.image_1)
+            Upload.generate_classified_thumbs(classified.image_2)
+            Upload.generate_classified_thumbs(classified.image_3)
             #return HttpResponseRedirect('/')
     else:
         formset = AddClassifiedForm(
@@ -161,13 +162,16 @@ def addClassified(request):
         if formset.is_valid():
             classified = formset.save(commit = False)
             try:
-                #Workaround to save the city by ajax helper
                 classified.city = City.objects.get(pk = request.POST.get('city_id'))
             except:
                 None
             if request.user.is_authenticated():
                 classified.user = request.user
             classified.save()
+
+            Upload.generate_classified_thumbs(classified.image_1)
+            Upload.generate_classified_thumbs(classified.image_2)
+            Upload.generate_classified_thumbs(classified.image_3)
             return HttpResponseRedirect('/')
     else:
         formset = AddClassifiedForm(

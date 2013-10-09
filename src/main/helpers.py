@@ -45,7 +45,7 @@ class Upload:
         return wrapper
 
     @staticmethod
-    def generate_thumb(imagepath, width = 200, height = 200, quality = 75):
+    def generate_thumb(imagepath, width, height, quality = 80):
         if not imagepath:
             return
         imagepath = str(imagepath)
@@ -55,6 +55,7 @@ class Upload:
         if image.mode not in ("L", "RGB"):
             image = image.convert("RGB")
         ext = str(imagepath).split('.')[-1]
+        ext = 'jpg'
         filename = str(imagepath).split('.')[0]
         
         filename = '{}.thumb.{}.{}'.format(filename, width, ext)
@@ -63,3 +64,11 @@ class Upload:
         imagefit = ImageOps.fit(image, (width, height), Image.ANTIALIAS)
         imagefit.save(filepath, 'JPEG', quality = quality)
         return filepath
+
+    @staticmethod
+    def generate_classified_thumbs(imagepath, quality = 80):
+        if not imagepath:
+            return
+        for size in settings.CLASSIFIED_THUMBNAILS:
+            print 'Generating thumbnail with size: %sx%s' % (size['width'], size['height'])
+            Upload.generate_thumb(imagepath, size['width'], size['height'], quality)
