@@ -1,16 +1,16 @@
-  {% extends 'base.html' %}
-{% block title %}Signup{% endblock %}
+{% extends 'base.html' %}
+{% block title %}Classifieds list{% endblock %}
 {% block header %} 
 	<h1>Classifieds list</h1>
 {% endblock %}
 
 
 {% block main_content %}
-    <form id='search-ad' method='get' class='form-search'>
+    <form method='post' class='form-search'>
       {% include 'misc/search/classifieds.html' %}
     </form>
 
-    <form id='search-ad' method='get' class='form-search'>
+    <form method='post' class='form-search form-search-advanced'>
       {% include 'misc/search/classifieds_advanced.html' %}
     </form>
 

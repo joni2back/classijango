@@ -63,6 +63,6 @@ class AdvancedSerarchForm(forms.Form):
     search = forms.CharField(max_length = 100)
     price_min = forms.CharField(max_length = 100)
     price_max = forms.CharField(max_length = 100)
-    currency = forms.ChoiceField(choices = Classified.CLASSIFIED_CURRENCIES,)
+    currency = forms.ChoiceField(choices = Classified.CLASSIFIED_CURRENCIES)
     city = forms.CharField(max_length = 100, widget = forms.TextInput(attrs = {'autocomplete': 'off'}))
     city_id = forms.CharField(max_length = 100, widget = forms.TextInput(attrs = {'type': 'hidden'}))

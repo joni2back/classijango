@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os, re
 from uuid import uuid4
 from django.db.models import Q

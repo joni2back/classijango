@@ -33,14 +33,15 @@ def jsonCities(request):
             list.append(data)
     return HttpResponse(dumps(list), mimetype = "application/json")
 
+@csrf_exempt
 def listClassifieds(request):
     results = 25
     search_form = SerarchForm()
     advanced_search_form = AdvancedSerarchForm()
-    if request.GET.get('search'):
-        search_query = Search.get_query(request.GET.get('search'), ['title', 'content'])
-        if request.GET.get('category'):
-            classifieds = Classified.objects.filter(search_query, category = request.GET.get('category'))[:results]
+    if request.POST.get('search'):
+        search_query = Search.get_query(request.POST.get('search'), ['title', 'content'])
+        if request.POST.get('category'):
+            classifieds = Classified.objects.filter(search_query, category = request.POST.get('category'))[:results]
         else:
             classifieds = Classified.objects.filter(search_query)[:results]
     else:
