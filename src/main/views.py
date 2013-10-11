@@ -38,14 +38,22 @@ def listClassifieds(request):
     results = 25
     search_form = SerarchForm()
     advanced_search_form = AdvancedSerarchForm()
-    if request.POST.get('search'):
-        search_query = Search.get_query(request.POST.get('search'), ['title', 'content'])
-        if request.POST.get('category'):
-            classifieds = Classified.objects.filter(search_query, category = request.POST.get('category'))[:results]
-        else:
-            classifieds = Classified.objects.filter(search_query)[:results]
+
+    if request.POST and request.POST.get('search'):
+        search_query = Search.prepareClassifiedQuery(
+            request.POST.get('search'),
+            ['title', 'content'],
+            request.POST,
+            ['city_id', 'category', 'currency'],
+            [
+                ['price_min', 'price_max']
+            ],
+        )
+        classifieds = Classified.objects.filter(search_query)[:results]
     else:
         classifieds = Classified.objects.all()[:results]
+
+
 
     for classified in classifieds:
         classified.url = Seo.prepareClassifiedUrl(classified)
@@ -142,9 +150,9 @@ def editClassified(request, classifiedId):
                 classified.user = request.user
             
             classified.save()
-            Upload.generate_classified_thumbs(classified.image_1)
-            Upload.generate_classified_thumbs(classified.image_2)
-            Upload.generate_classified_thumbs(classified.image_3)
+            Upload.generateClassifiedThumbs(classified.image_1)
+            Upload.generateClassifiedThumbs(classified.image_2)
+            Upload.generateClassifiedThumbs(classified.image_3)
             #return HttpResponseRedirect('/')
     else:
         formset = AddClassifiedForm(
@@ -172,9 +180,9 @@ def addClassified(request):
                 classified.user = request.user
             classified.save()
 
-            Upload.generate_classified_thumbs(classified.image_1)
-            Upload.generate_classified_thumbs(classified.image_2)
-            Upload.generate_classified_thumbs(classified.image_3)
+            Upload.generateClassifiedThumbs(classified.image_1)
+            Upload.generateClassifiedThumbs(classified.image_2)
+            Upload.generateClassifiedThumbs(classified.image_3)
             return HttpResponseRedirect('/')
     else:
         formset = AddClassifiedForm(

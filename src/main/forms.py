@@ -58,11 +58,10 @@ class SerarchForm(forms.Form):
     search = forms.CharField(max_length = 100)
 
 class AdvancedSerarchForm(forms.Form):
-    #TODO: CREATE VIEW FUNCTIONALITY
-    category = forms.ModelChoiceField(queryset = ClassifiedCategory.objects.all())
     search = forms.CharField(max_length = 100)
+    category = forms.ModelChoiceField(queryset = ClassifiedCategory.objects.all())
+    city = forms.CharField(max_length = 100, widget = forms.TextInput(attrs = {'autocomplete': 'off'}))
+    city_id = forms.CharField(max_length = 100, widget = forms.TextInput(attrs = {'type': 'hidden'}))
     price_min = forms.CharField(max_length = 100)
     price_max = forms.CharField(max_length = 100)
     currency = forms.ChoiceField(choices = Classified.CLASSIFIED_CURRENCIES)
-    city = forms.CharField(max_length = 100, widget = forms.TextInput(attrs = {'autocomplete': 'off'}))
-    city_id = forms.CharField(max_length = 100, widget = forms.TextInput(attrs = {'type': 'hidden'}))

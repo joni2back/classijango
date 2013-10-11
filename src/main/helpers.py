@@ -8,16 +8,17 @@ from django.conf import settings
 
 class Search:
     @staticmethod
-    def normalize_query(query_string, findterms=re.compile(r'"([^"]+)"|(\S+)').findall, normspace=re.compile(r'\s{2,}').sub):
+    def normalizeQuery(query_string, findterms=re.compile(r'"([^"]+)"|(\S+)').findall, normspace=re.compile(r'\s{2,}').sub):
         return [normspace(' ', (t[0] or t[1]).strip()) for t in findterms(query_string)] 
 
     @staticmethod
-    def get_query(query_string, search_fields):
+    def prepareClassifiedQuery(query_string, query_string_or_fields = [], extra_data = [], extra_data_and_fields = [], extra_data_and_between_fields = []):
+        #TODO: Add filter by extra_data_and_between_fields in order to prepare the query to distinct between min/max price rate
         query = None
-        terms = Search.normalize_query(query_string)
+        terms = Search.normalizeQuery(query_string)
         for term in terms:
             or_query = None
-            for field_name in search_fields:
+            for field_name in query_string_or_fields:
                 q = Q(**{"%s__icontains" % field_name: term})
                 if or_query is None:
                     or_query = q
@@ -27,6 +28,16 @@ class Search:
                 query = or_query
             else:
                 query = query & or_query
+        
+        if extra_data:
+            for extra in extra_data:
+                if extra in extra_data_and_fields and extra_data[extra]:
+                    q = Q(**{extra: extra_data[extra]})
+                    if query is None:
+                        query = q
+                    else:
+                        query = query & q
+        print query
         return query
 
 class Seo:
@@ -38,7 +49,7 @@ class Seo:
 
 class Upload:
     @staticmethod
-    def random_file_name(path):
+    def generateRandomFilename(path):
         def wrapper(instance, filename):
             ext = filename.split('.')[-1]
             filename = '{}.{}'.format(uuid4().hex, ext)
@@ -46,7 +57,7 @@ class Upload:
         return wrapper
 
     @staticmethod
-    def generate_thumb(imagepath, width, height, quality = 80):
+    def generateThumbnail(imagepath, width, height, quality = 80):
         if not imagepath:
             return
         imagepath = str(imagepath)
@@ -67,9 +78,9 @@ class Upload:
         return filepath
 
     @staticmethod
-    def generate_classified_thumbs(imagepath, quality = 80):
+    def generateClassifiedThumbs(imagepath, quality = 80):
         if not imagepath:
             return
         for size in settings.CLASSIFIED_THUMBNAILS:
             print 'Generating thumbnail with size: %sx%s' % (size['width'], size['height'])
-            Upload.generate_thumb(imagepath, size['width'], size['height'], quality)
+            Upload.generateThumbnail(imagepath, size['width'], size['height'], quality)

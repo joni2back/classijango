@@ -12,16 +12,16 @@ class Classified(models.Model):
     CLASSIFIED_EXPIRATION_MONTHS = 1
 
     CLASSIFIED_STATUS = (
-        (0, 'Inactivo'),
-        (1, 'Activo'),
+        (0, 'Inactive'),
+        (1, 'Active'),
     )
     CLASSIFIED_TYPES = (
-        ('sale', 'En venta'),
-        ('rent', 'En alquiler'),
+        ('sale', 'For sale'),
+        ('rent', 'For rent'),
     )
     CLASSIFIED_CURRENCIES = (
-        ('usd', 'Dolares'),
-        ('peso_arg', 'Pesos Arg'),
+        ('usd', 'Dollar'),
+        ('peso_arg', 'Argentine Peso'),
     )
 
     def add_months(sourcedate, months):
@@ -52,9 +52,9 @@ class Classified(models.Model):
     contact_phone = models.CharField(max_length = 64, null = True, blank = True)
     google_map = models.CharField(max_length = 128, null = True, blank = True)
 
-    image_1 = models.ImageField(upload_to = Upload.random_file_name('classifieds/images'), blank = True)
-    image_2 = models.ImageField(upload_to = Upload.random_file_name('classifieds/images'), blank = True)
-    image_3 = models.ImageField(upload_to = Upload.random_file_name('classifieds/images'), blank = True)
+    image_1 = models.ImageField(upload_to = Upload.generateRandomFilename('classifieds/images'), blank = True)
+    image_2 = models.ImageField(upload_to = Upload.generateRandomFilename('classifieds/images'), blank = True)
+    image_3 = models.ImageField(upload_to = Upload.generateRandomFilename('classifieds/images'), blank = True)
 
     class Meta:
         verbose_name_plural = 'Classifieds'
