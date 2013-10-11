@@ -43,7 +43,7 @@ def listClassifieds(request):
         search_query = Search.prepareClassifiedQuery(
             request.POST.get('search'),
             ['title', 'content'],
-            request.POST,
+            request.POST, 
             ['city_id', 'category', 'currency'],
             [
                 ['price_min', 'price_max']

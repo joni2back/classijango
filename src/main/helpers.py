@@ -25,7 +25,7 @@ class Search:
                 else:
                     or_query = or_query | q
             if query is None:
-                query = or_query
+                query = or_query 
             else:
                 query = query & or_query
         
