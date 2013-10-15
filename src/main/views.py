@@ -129,8 +129,6 @@ def myProfile(request):
 
 @login_required
 def editClassified(request, classifiedId):
-    #TODO: admin user can edit classified
-    #TODO: admin user editing classified must leave original user id as owner of the item
     classified = Classified.objects.get(pk = classifiedId)
 
     if not classified.user:
@@ -146,14 +144,9 @@ def editClassified(request, classifiedId):
                 classified.city = City.objects.get(pk = request.POST.get('city_id'))
             except:
                 None
-            if request.user.is_authenticated():
-                classified.user = request.user
-            
             classified.save()
-            Upload.generateClassifiedThumbs(classified.image_1)
-            Upload.generateClassifiedThumbs(classified.image_2)
-            Upload.generateClassifiedThumbs(classified.image_3)
-            #return HttpResponseRedirect('/')
+            Upload.generateClassifiedThumbsByRequest(request, classified)
+            return HttpResponseRedirect('/')
     else:
         formset = AddClassifiedForm(
             instance = classified,
@@ -178,11 +171,13 @@ def addClassified(request):
                 None
             if request.user.is_authenticated():
                 classified.user = request.user
+            else:
+                try:
+                    classified.user = User.objects.get(email = request.POST.get('contact_email'))
+                except:
+                    None
             classified.save()
-
-            Upload.generateClassifiedThumbs(classified.image_1)
-            Upload.generateClassifiedThumbs(classified.image_2)
-            Upload.generateClassifiedThumbs(classified.image_3)
+            Upload.generateClassifiedThumbsByRequest(request, classified)
             return HttpResponseRedirect('/')
     else:
         formset = AddClassifiedForm(

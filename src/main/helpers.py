@@ -8,7 +8,7 @@ from django.conf import settings
 
 class Search:
     @staticmethod
-    def normalizeQuery(query_string, findterms=re.compile(r'"([^"]+)"|(\S+)').findall, normspace=re.compile(r'\s{2,}').sub):
+    def normalizeQuery(query_string, findterms = re.compile(r'"([^"]+)"|(\S+)').findall, normspace = re.compile(r'\s{2,}').sub):
         return [normspace(' ', (t[0] or t[1]).strip()) for t in findterms(query_string)] 
 
     @staticmethod
@@ -82,5 +82,11 @@ class Upload:
         if not imagepath:
             return
         for size in settings.CLASSIFIED_THUMBNAILS:
-            print 'Generating thumbnail with size: %sx%s' % (size['width'], size['height'])
+            print 'Generating thumbnail for \'%s\' with size: %sx%s' % (imagepath, size['width'], size['height'])
             Upload.generateThumbnail(imagepath, size['width'], size['height'], quality)
+
+    @staticmethod
+    def generateClassifiedThumbsByRequest(request, classified, names = ['image_1', 'image_2', 'image_3']):
+        for name in names:
+            if request.FILES.get(name):
+                Upload.generateClassifiedThumbs(getattr(classified, name))
