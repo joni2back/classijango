@@ -23,15 +23,15 @@ def jsonCities(request):
 
         for city in cities:
             data = {
-                "id": getattr(city, 'id'),
-                "name": u"%s - %s - %s" % (
+                'id': getattr(city, 'id'),
+                'name': u'%s - %s - %s' % (
                     city.name.title(),
                     city.province.name.title(),
                     city.province.country.name.title(),
                 )
             }
             list.append(data)
-    return HttpResponse(dumps(list), mimetype = "application/json")
+    return HttpResponse(dumps(list), mimetype = 'application/json')
 
 @csrf_exempt
 def listClassifieds(request):

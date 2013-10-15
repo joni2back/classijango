@@ -58,8 +58,8 @@ class Classified(models.Model):
 
     class Meta:
         verbose_name_plural = 'Classifieds'
-        app_label = "main"
-        db_table = "main_classifieds"
+        app_label = 'main'
+        db_table = 'main_classifieds'
 
     def __unicode__(self):
         return self.title

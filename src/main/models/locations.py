@@ -5,8 +5,8 @@ class Country(models.Model):
     name = models.CharField(max_length = 96)
     class Meta:
         verbose_name_plural = 'Countries'
-        app_label = "main"
-        db_table = "main_location_countries"
+        app_label = 'main'
+        db_table = 'main_location_countries'
 
     def __unicode__(self):
         return self.name.title()
@@ -17,8 +17,8 @@ class Province(models.Model):
 
     class Meta:
         verbose_name_plural = 'Provinces'
-        app_label = "main"
-        db_table = "main_location_provinces"
+        app_label = 'main'
+        db_table = 'main_location_provinces'
 
     def __unicode__(self):
         return self.name.title()
@@ -31,8 +31,8 @@ class City(models.Model):
 
     class Meta:
         verbose_name_plural = 'Cities'
-        app_label = "main"
-        db_table = "main_location_cities"
+        app_label = 'main'
+        db_table = 'main_location_cities'
 
     def __unicode__(self):
         return self.name.title()

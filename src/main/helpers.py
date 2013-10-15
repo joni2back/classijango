@@ -19,7 +19,7 @@ class Search:
         for term in terms:
             or_query = None
             for field_name in query_string_or_fields:
-                q = Q(**{"%s__icontains" % field_name: term})
+                q = Q(**{'%s__icontains' % field_name: term})
                 if or_query is None:
                     or_query = q
                 else:
@@ -44,7 +44,7 @@ class Seo:
     @staticmethod
     def prepareClassifiedUrl(classified, max_length = 32):
         title = re.sub('[^0-9a-zA-Z]+', ' ', classified.title).strip()
-        url = "%s:%d" % (title[:max_length].lower().replace(' ', '-'), classified.id)
+        url = '%s:%d' % (title[:max_length].lower().replace(' ', '-'), classified.id)
         return url
 
 class Upload:
@@ -64,8 +64,8 @@ class Upload:
 
         image = Image.open(os.path.join(settings.MEDIA_ROOT, imagepath))
         
-        if image.mode not in ("L", "RGB"):
-            image = image.convert("RGB")
+        if image.mode not in ('L', 'RGB'):
+            image = image.convert('RGB')
         ext = str(imagepath).split('.')[-1]
         ext = 'jpg'
         filename = str(imagepath).split('.')[0]

@@ -7,8 +7,8 @@ class ClassifiedCategory(models.Model):
 
 	class Meta:
 		verbose_name_plural = 'Classifieds Categories'
-		app_label = "main"
-		db_table = "main_classifieds_categories"
+		app_label = 'main'
+		db_table = 'main_classifieds_categories'
 
 	def __unicode__(self):
 		return self.title
