@@ -19,9 +19,9 @@ class AddClassifiedForm(ModelForm):
             'image_1', 'image_2', 'image_3',
         )
     
-    def __init__(self, *args, **kwargs):
+    def __init__OLD(self, *args, **kwargs):
         super(AddClassifiedForm, self).__init__(*args, **kwargs)
-        self.fields['category'].empty_label = 'Please select a category'
+        self.fields['categodry'].empty_label = u'---------'
 
 class EditProfileForm(ModelForm):
     city = forms.CharField(max_length = 100, widget = forms.TextInput(attrs = {'autocomplete': 'off'}))
