@@ -40,15 +40,7 @@ def listClassifieds(request):
     advanced_search_form = AdvancedSerarchForm()
 
     if request.POST and request.POST.get('search'):
-        search_query = Search.prepareClassifiedQuery(
-            request.POST.get('search'),
-            ['title', 'content'],
-            request.POST, 
-            ['city_id', 'category', 'currency'],
-            [
-                ['price_min', 'price_max']
-            ],
-        )
+        search_query = Search.prepareClassifiedQuery(request)
         classifieds = Classified.objects.filter(search_query)[:results]
     else:
         classifieds = Classified.objects.all()[:results]

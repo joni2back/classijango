@@ -12,7 +12,22 @@ class Search:
         return [normspace(' ', (t[0] or t[1]).strip()) for t in findterms(query_string)] 
 
     @staticmethod
-    def prepareClassifiedQuery(query_string, query_string_or_fields = [], extra_data = [], extra_data_and_fields = [], extra_data_and_between_fields = []):
+    def prepareClassifiedQuery(request):
+        print request.POST.get('price_min')
+        print request.POST.get('price_max')
+        print '------------------'
+        return Search.buildQuery(
+            request.POST.get('search'),
+            ['title', 'content'],
+            request.POST, 
+            ['city_id', 'category', 'currency'],
+            {
+                'price': [request.POST.get('price_min'), request.POST.get('price_max')],
+            }
+        )
+
+    @staticmethod
+    def buildQuery(query_string, query_string_or_fields = [], extra_data = [], extra_data_and_fields = [], extra_data_and_between_fields = []):
         #TODO: Add filter by extra_data_and_between_fields in order to prepare the query to distinct between min/max price rate
         query = None
         terms = Search.normalizeQuery(query_string)
@@ -37,7 +52,25 @@ class Search:
                         query = q
                     else:
                         query = query & q
+
+        #fix
+        range = [u'', u'']
+        for between_field in extra_data_and_between_fields:
+            range = extra_data_and_between_fields[between_field]
+
+        query = query & Q(**{'price__range': range})
+
+        print '************************************************************************'
         print query
+        print '************************************************************************'
+        return query
+
+
+    def appendQuery(originalQuery = None, appendQuery = None):
+        if originalQuery is None:
+            query = appendQuery 
+        else:
+            query = originalQuery & originalQuery
         return query
 
 class Seo:
