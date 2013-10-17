@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import os, re
+import os, re, sys
 from uuid import uuid4
 from django.db.models import Q
 from django.utils import encoding
@@ -13,64 +13,55 @@ class Search:
 
     @staticmethod
     def prepareClassifiedQuery(request):
-        print request.POST.get('price_min')
-        print request.POST.get('price_max')
-        print '------------------'
         return Search.buildQuery(
             request.POST.get('search'),
             ['title', 'content'],
             request.POST, 
             ['city_id', 'category', 'currency'],
             {
-                'price': [request.POST.get('price_min'), request.POST.get('price_max')],
+                'price': [
+                    request.POST.get('price_min'), 
+                    request.POST.get('price_max')
+                ],
             }
         )
 
     @staticmethod
-    def buildQuery(query_string, query_string_or_fields = [], extra_data = [], extra_data_and_fields = [], extra_data_and_between_fields = []):
-        #TODO: Add filter by extra_data_and_between_fields in order to prepare the query to distinct between min/max price rate
-        query = None
-        terms = Search.normalizeQuery(query_string)
-        for term in terms:
-            or_query = None
-            for field_name in query_string_or_fields:
-                q = Q(**{'%s__icontains' % field_name: term})
-                if or_query is None:
-                    or_query = q
-                else:
-                    or_query = or_query | q
-            if query is None:
-                query = or_query 
-            else:
-                query = query & or_query
-        
+    def buildQuery(query_string = '', query_string_or_fields = [], extra_data = [], extra_data_and_fields = [], extra_data_and_between_fields = []):
+        query = Q(**{})
+        if query_string:
+            terms = Search.normalizeQuery(query_string)
+            for term in terms:
+                or_query = Q(**{})
+                for field_name in query_string_or_fields:
+                    q = Q(**{'%s__icontains' % field_name: term})
+                    query = Search.appendQuery(query, q, True)
         if extra_data:
             for extra in extra_data:
                 if extra in extra_data_and_fields and extra_data[extra]:
                     q = Q(**{extra: extra_data[extra]})
-                    if query is None:
-                        query = q
-                    else:
-                        query = query & q
-
-        #fix
-        range = [u'', u'']
+                    query = Search.appendQuery(query, q)      
         for between_field in extra_data_and_between_fields:
-            range = extra_data_and_between_fields[between_field]
-
-        query = query & Q(**{'price__range': range})
-
-        print '************************************************************************'
+            min_max = extra_data_and_between_fields[between_field]
+            if any(min_max):
+                if not min_max[0]:
+                    min_max[0] = 0
+                if not min_max[1]:
+                    min_max[1] = sys.maxint
+                q = Q(**{'%s__range' % between_field: (min_max[0], min_max[1])})
+                query = Search.appendQuery(query, q)
         print query
-        print '************************************************************************'
         return query
 
-
-    def appendQuery(originalQuery = None, appendQuery = None):
-        if originalQuery is None:
-            query = appendQuery 
+    @staticmethod
+    def appendQuery(original_query = None, append_query = None, append_as_or = False):
+        if original_query == Q(**{}):
+            query = append_query 
         else:
-            query = originalQuery & originalQuery
+            if append_as_or:
+                query = original_query | append_query
+            else:
+                query = original_query & append_query
         return query
 
 class Seo:

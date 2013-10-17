@@ -9,6 +9,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.forms.formsets import formset_factory
 from django.http import HttpResponse, HttpResponseRedirect
@@ -35,17 +36,14 @@ def jsonCities(request):
 
 @csrf_exempt
 def listClassifieds(request):
-    results = 25
     search_form = SerarchForm()
     advanced_search_form = AdvancedSerarchForm()
 
-    if request.POST and request.POST.get('search'):
+    if request.POST:# and request.POST.get('search'):
         search_query = Search.prepareClassifiedQuery(request)
-        classifieds = Classified.objects.filter(search_query)[:results]
+        classifieds = Classified.objects.filter(search_query)[:settings.CLASSIFIED_LIST_MAX_ITEMS]
     else:
-        classifieds = Classified.objects.all()[:results]
-
-
+        classifieds = Classified.objects.all()[:settings.CLASSIFIED_LIST_MAX_ITEMS]
 
     for classified in classifieds:
         classified.url = Seo.prepareClassifiedUrl(classified)
