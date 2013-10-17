@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import os, re, sys
+import os, re, sys, logging
 from uuid import uuid4
 from django.db.models import Q
 from django.utils import encoding
@@ -51,7 +51,7 @@ class Search:
                     min_max[1] = sys.maxint
                 q = Q(**{'%s__range' % between_field: (min_max[0], min_max[1])})
                 query = Search.appendQuery(query, q)
-        print query
+        Logger.getInstance().debug(query)
         return query
 
     @staticmethod
@@ -107,7 +107,7 @@ class Upload:
         if not imagepath:
             return
         for size in settings.CLASSIFIED_THUMBNAILS:
-            print 'Generating thumbnail for \'%s\' with size: %sx%s' % (imagepath, size['width'], size['height'])
+            Logger.getInstance().debug('Generating thumbnail for \'%s\' with size: %sx%s' % (imagepath, size['width'], size['height']))
             Upload.generateThumbnail(imagepath, size['width'], size['height'], quality)
 
     @staticmethod
@@ -129,3 +129,8 @@ class Email:
             msg.attach_file(img)
 
         return msg.send()
+
+class Logger:
+    @staticmethod
+    def getInstance(logger_name = 'classijango'):
+        return logging.getLogger(logger_name)

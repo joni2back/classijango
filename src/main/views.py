@@ -15,6 +15,7 @@ from django.forms.formsets import formset_factory
 from django.http import HttpResponse, HttpResponseRedirect
 from json import dumps
 
+
 @csrf_exempt
 def jsonCities(request):
     list = []
@@ -39,7 +40,7 @@ def listClassifieds(request):
     search_form = SerarchForm()
     advanced_search_form = AdvancedSerarchForm()
 
-    if request.POST:# and request.POST.get('search'):
+    if request.POST:
         search_query = Search.prepareClassifiedQuery(request)
         classifieds = Classified.objects.filter(search_query)[:settings.CLASSIFIED_LIST_MAX_ITEMS]
     else:
