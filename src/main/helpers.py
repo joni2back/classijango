@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.utils import encoding
 from PIL import Image, ImageOps
 from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
 
 class Search:
     @staticmethod
@@ -114,3 +115,17 @@ class Upload:
         for name in names:
             if request.FILES.get(name):
                 Upload.generateClassifiedThumbs(getattr(classified, name))
+
+class Email:
+    @staticmethod
+    def sendClassifiedCreationEmail(classified):
+        subject, from_email, to = classified.title, settings.DEFAULT_FROM_EMAIL, classified.contact_email
+        text_content = classified.content
+        html_content = classified.content
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        msg.attach_alternative(html_content, "text/html")
+        if str(classified.image_1):
+            img = os.path.join(settings.MEDIA_ROOT, str(classified.image_1))
+            msg.attach_file(img)
+
+        return msg.send()

@@ -168,6 +168,7 @@ def addClassified(request):
                     None
             classified.save()
             Upload.generateClassifiedThumbsByRequest(request, classified)
+            Email.sendClassifiedCreationEmail(classified)
             return HttpResponseRedirect('/')
     else:
         formset = AddClassifiedForm(
