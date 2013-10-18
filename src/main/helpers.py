@@ -49,7 +49,7 @@ class Search:
                     min_max[0] = 0
                 if not min_max[1]:
                     min_max[1] = sys.maxint
-                q = Q(**{'%s__range' % between_field: (min_max[0], min_max[1])})
+                q = Q(**{'%s__range' % between_field: (Search.intForceCast(min_max[0]), Search.intForceCast(min_max[1]))})
                 query = Search.appendQuery(query, q)
         Logger.getInstance().debug(query)
         return query
@@ -64,6 +64,13 @@ class Search:
             else:
                 query = original_query & append_query
         return query
+    
+    @staticmethod
+    def intForceCast(var):
+        try:
+            return int(var)
+        except:
+            return 0
 
 class Upload:
     @staticmethod

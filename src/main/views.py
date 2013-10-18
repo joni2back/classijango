@@ -41,7 +41,11 @@ def listClassifieds(request):
 
     if request.POST:
         search_query = Search.prepareClassifiedQuery(request)
-        classifieds = Classified.objects.filter(search_query)[:settings.CLASSIFIED_LIST_MAX_ITEMS]
+        try:
+            classifieds = Classified.objects.filter(search_query)[:settings.CLASSIFIED_LIST_MAX_ITEMS]
+        except:
+            Logger.getInstance().error('Invalid parameters at query: <<%s>>' % str(search_query))
+            raise Exception('Invalid parameters')
     else:
         classifieds = Classified.objects.all()[:settings.CLASSIFIED_LIST_MAX_ITEMS]
 
@@ -102,7 +106,7 @@ def myProfile(request):
             try:
                 user.city = City.objects.get(pk = request.POST.get('city_id'))
             except:
-                None
+                pass
             userprofile.save()
             return HttpResponseRedirect('/')
     else:
@@ -118,7 +122,6 @@ def myProfile(request):
 
 @login_required
 def myClassifieds(request):
-    #user = UserProfile.objects.get(pk = request.user.id)
     classifieds = Classified.objects.filter(user = request.user.id)
 
     return render_to_response(
@@ -166,7 +169,7 @@ def editClassified(request, classifiedId):
             try:
                 classified.city = City.objects.get(pk = request.POST.get('city_id'))
             except:
-                None
+                pass
             classified.save()
             Upload.generateClassifiedThumbsByRequest(request, classified)
             return HttpResponseRedirect('/')
@@ -191,14 +194,14 @@ def addClassified(request):
             try:
                 classified.city = City.objects.get(pk = request.POST.get('city_id'))
             except:
-                None
+                pass
             if request.user.is_authenticated():
                 classified.user = request.user
             else:
                 try:
                     classified.user = User.objects.get(email = request.POST.get('contact_email'))
                 except:
-                    None
+                    pass
             classified.save()
             Upload.generateClassifiedThumbsByRequest(request, classified)
             Email.sendClassifiedCreationEmail(classified)
