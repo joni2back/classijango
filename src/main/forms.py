@@ -23,6 +23,11 @@ class AddClassifiedForm(ModelForm):
         super(AddClassifiedForm, self).__init__(*args, **kwargs)
         self.fields['categodry'].empty_label = u'---------'
 
+class DeleteClassifiedForm(ModelForm):
+    class Meta:
+        model = Classified
+        fields = ()
+
 class EditProfileForm(ModelForm):
     city = forms.CharField(max_length = 100, widget = forms.TextInput(attrs = {'autocomplete': 'off'}))
     city_id = forms.CharField(max_length = 100, widget = forms.TextInput(attrs = {'type': 'hidden'}))

@@ -11,7 +11,8 @@
           <img src="{{MEDIA_URL}}{{ classified.image_1 }}" alt="{{ classified }}" style="width:30%"/>
           <p>{{ classified.content }}</p>
 
-          <a href="/ads/edit/{{ classified.id }}" class="btn btn-big">Edit article</a>
+          <a href="/ads/edit/{{ classified.id }}" class="btn">Edit</a>
+          <a href="/ads/delete/{{ classified.id }}" class="btn btn-danger">Delete</a>
         </div>
     </div>
 {% endblock %}

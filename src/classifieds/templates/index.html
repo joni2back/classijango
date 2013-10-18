@@ -9,8 +9,11 @@
 	{% if not user.is_authenticated %}
 		<div>If you want to edit your articles, you need to <a href='/accounts/login'>login</a></div>
 	{% else %}
-		<div>Hello <strong>{{ request.user.username }}</strong></div>
-		<div>Update my <a href='/accounts/profile'>basic info</a></div>
+		<div>Hello <strong>{{ request.user.username }}</strong> !</div>
+		<div>
+            <span>Update my <a href='/accounts/profile'>profile</a></span>
+            <span>or see my <a href='/accounts/profile/classifieds'>classifieds</a></span>
+        </div>
 		<div><a href='/accounts/logout'>Logout</a></div>
 	{% endif %}
 {% endblock %}

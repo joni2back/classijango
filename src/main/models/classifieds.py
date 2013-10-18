@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import datetime, calendar
+import datetime, calendar, re
 from django.db import models
 from django.contrib.auth.models import User
 from main.models.categories import ClassifiedCategory
@@ -25,14 +25,19 @@ class Classified(models.Model):
         ('peso_arg', 'Argentine Peso'),
     )
 
-    def add_months(sourcedate, months):
+    def addMonths(sourcedate, months):
         month = sourcedate.month - 1 + months
         year = sourcedate.year + month / 12
         month = month % 12 + 1
         day = min(sourcedate.day,calendar.monthrange(year,month)[1])
         return datetime.date(year,month,day)
 
-    expirationDate = add_months(datetime.date.today(), CLASSIFIED_EXPIRATION_MONTHS)
+    @property
+    def permalink(self, max_length = 64):
+        title = re.sub('[^0-9a-zA-Z]+', ' ', self.title).strip()
+        return '%s:%d' % (title[:max_length].lower().replace(' ', '-'), self.id)
+
+    expirationDate = addMonths(datetime.date.today(), CLASSIFIED_EXPIRATION_MONTHS)
 
     title = models.CharField(max_length = 255)
     content = models.TextField()

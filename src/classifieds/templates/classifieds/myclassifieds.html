@@ -1,19 +1,11 @@
 {% extends 'base.html' %}
-{% block title %}Classifieds list{% endblock %}
+{% block title %}My classifieds list{% endblock %}
 {% block header %} 
-	<h1>Classifieds list</h1>
+    <h1>My classifieds list</h1>
 {% endblock %}
 
 
 {% block main_content %}
-    <form method='post' class='form-search'>
-      {% include 'misc/search/classifieds.html' %}
-    </form>
-
-    <form method='post' class='form-search form-search-advanced'>
-      {% include 'misc/search/classifieds_advanced.html' %}
-    </form>
-
     <div class="row-fluid">
       <ul class="thumbnails">
       {% for classified in classifieds %}
@@ -23,7 +15,7 @@
               <img src="/uploads/{{ classified.image_1 }}" alt="{{ classified.title }}" />
             </a>
             <div class="caption">
-              <h4><a href='/ads/{{ classified.permalink }}'>{{ classified.title }}</a></h4>
+              <h4><a href='/ads/{{ classified.permalink }}'>{{ classified.title }}sa</a></h4>
               <p>{{ classified.content|slice:":200"  }}...</p>
               <p><i class="icon icon-map-marker"></i> {{ classified.city }}, {{ classified.city.province }}</p>
             </div>

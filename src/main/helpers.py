@@ -65,13 +65,6 @@ class Search:
                 query = original_query & append_query
         return query
 
-class Seo:
-    @staticmethod
-    def prepareClassifiedUrl(classified, max_length = 32):
-        title = re.sub('[^0-9a-zA-Z]+', ' ', classified.title).strip()
-        url = '%s:%d' % (title[:max_length].lower().replace(' ', '-'), classified.id)
-        return url
-
 class Upload:
     @staticmethod
     def generateRandomFilename(path):

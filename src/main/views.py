@@ -15,7 +15,6 @@ from django.forms.formsets import formset_factory
 from django.http import HttpResponse, HttpResponseRedirect
 from json import dumps
 
-
 @csrf_exempt
 def jsonCities(request):
     list = []
@@ -46,8 +45,6 @@ def listClassifieds(request):
     else:
         classifieds = Classified.objects.all()[:settings.CLASSIFIED_LIST_MAX_ITEMS]
 
-    for classified in classifieds:
-        classified.url = Seo.prepareClassifiedUrl(classified)
     return render_to_response(
         'classifieds/list.html',
         {
@@ -114,6 +111,41 @@ def myProfile(request):
         'registration/profile.html', 
         {
             'formset': formset
+        }, 
+        context_instance = RequestContext(request)
+    )
+
+
+@login_required
+def myClassifieds(request):
+    #user = UserProfile.objects.get(pk = request.user.id)
+    classifieds = Classified.objects.filter(user = request.user.id)
+
+    return render_to_response(
+        'classifieds/myclassifieds.html', 
+        {
+            'classifieds': classifieds
+        }, 
+        context_instance = RequestContext(request)
+    )
+
+@login_required
+def deleteClassified(request, classifiedId):
+    classified = Classified.objects.get(pk = classifiedId)
+
+    if not classified.user:
+        return HttpResponseRedirect('/')
+    if request.user.id != classified.user.id:
+        return HttpResponseRedirect('/')
+
+    if request.method == 'POST':
+        classified.delete()
+        return HttpResponseRedirect('/')
+
+    return render_to_response(
+        'classifieds/delete.html', 
+        {
+            'classified': classified
         }, 
         context_instance = RequestContext(request)
     )
