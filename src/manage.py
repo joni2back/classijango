@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-import os
-import sys
+import sys, os
 
 """
 Classijango coding standard:
@@ -22,7 +21,8 @@ Consts: Uppercase
 # Do not generate bytecodes in developer mode
 sys.dont_write_bytecode = True
 
-print '*** CLASSIJANGO APP ***'
+os.system('clear')
+print '>>> CLASSIJANGO APP'
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "classifieds.settings")
