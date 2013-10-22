@@ -119,11 +119,9 @@ def myProfile(request):
         context_instance = RequestContext(request)
     )
 
-
 @login_required
 def myClassifieds(request):
-    classifieds = Classified.objects.filter(user = request.user.id)
-
+    classifieds = Classified.objects.filter(Q(user = request.user.id) | Q(contact_email = request.user.email))
     return render_to_response(
         'classifieds/myclassifieds.html', 
         {
@@ -136,10 +134,13 @@ def myClassifieds(request):
 def deleteClassified(request, classifiedId):
     classified = Classified.objects.get(pk = classifiedId)
 
-    if not classified.user:
-        return HttpResponseRedirect('/')
-    if request.user.id != classified.user.id:
-        return HttpResponseRedirect('/')
+    allowed = True
+    if not classified.user and not classified.contact_email and not request.user:
+        allowed = False
+    elif request.user != classified.user and request.user.email != classified.contact_email:
+        allowed = False
+    if not allowed:
+        raise Exception('AccessDenied')
 
     if request.method == 'POST':
         classified.delete()
@@ -157,10 +158,13 @@ def deleteClassified(request, classifiedId):
 def editClassified(request, classifiedId):
     classified = Classified.objects.get(pk = classifiedId)
 
-    if not classified.user:
-        return HttpResponseRedirect('/')
-    if request.user.id != classified.user.id:
-        return HttpResponseRedirect('/')
+    allowed = True
+    if not classified.user and not classified.contact_email and not request.user:
+        allowed = False
+    elif request.user != classified.user and request.user.email != classified.contact_email:
+        allowed = False
+    if not allowed:
+        raise Exception('AccessDenied')
 
     if request.method == 'POST':
         formset = AddClassifiedForm(request.POST, request.FILES, instance = classified)
@@ -204,7 +208,7 @@ def addClassified(request):
                     pass
             classified.save()
             Upload.generateClassifiedThumbsByRequest(request, classified)
-            Email.sendClassifiedCreationEmail(classified)
+            #Email.sendClassifiedCreationEmail(classified)
             return HttpResponseRedirect('/')
     else:
         formset = AddClassifiedForm(

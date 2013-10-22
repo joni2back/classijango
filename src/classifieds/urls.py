@@ -20,7 +20,7 @@ urlpatterns = patterns('',
 
     url(r'^$', 'main.views.index'),    
     url(r'^ads/find/', 'main.views.listClassifieds'),
-    url(r'^ads/(?P<classifiedTitle>[a-zA-Z0-9_\-]{0,64}):(?P<classifiedId>[0-9]{1,8})$', 'main.views.viewClassified'),
+    url(r'^ads/(?P<classifiedId>[0-9]{1,8})/(?P<classifiedTitle>[a-zA-Z0-9_\-\/]{0,95})$', 'main.views.viewClassified'),
     url(r'^ads/edit/(?P<classifiedId>[0-9]{1,8})$', 'main.views.editClassified'),
     url(r'^ads/delete/(?P<classifiedId>[0-9]{1,8})$', 'main.views.deleteClassified'),
     url(r'^ads/create/$', 'main.views.addClassified'),

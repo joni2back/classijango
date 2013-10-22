@@ -33,9 +33,10 @@ class Classified(models.Model):
         return datetime.date(year,month,day)
 
     @property
-    def permalink(self, max_length = 64):
+    def permalink(self, max_length = 45):
         title = re.sub('[^0-9a-zA-Z]+', ' ', self.title).strip()
-        return '%s:%d' % (title[:max_length].lower().replace(' ', '-'), self.id)
+        category = self.category.title.lower()
+        return '%d/%s/%s' % (self.id, category, title[:max_length].lower().replace(' ', '-'))
 
     expirationDate = addMonths(datetime.date.today(), CLASSIFIED_EXPIRATION_MONTHS)
 
