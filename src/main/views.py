@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#TODO inspect and clean these imports
 from main.models.classifieds import *
 from main.models.user import UserProfile
 from main.models.locations import City
@@ -9,6 +10,10 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth.views import login as originalLogin
+from django.contrib.auth.forms import AuthenticationForm
+from django.core.validators import validate_email
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.forms.formsets import formset_factory
@@ -79,6 +84,23 @@ def index(request):
         {}, 
         context_instance = RequestContext(request)
     )
+
+def login(request, template_name = 'registration/login.html',
+          redirect_field_name = REDIRECT_FIELD_NAME,
+          authentication_form = AuthenticationForm,
+          current_app = None, extra_context = None):
+    if request.POST and request.POST.get('username'):
+        try:
+            validate_email(request.POST.get('username'))
+            user = UserProfile.objects.get(email = request.POST.get('username'))
+            if user:
+                request.POST = request.POST.copy()
+                request.POST['username'] = user.username
+        except:
+            pass
+    return originalLogin(request, template_name,
+          redirect_field_name, authentication_form,
+          current_app, extra_context)
 
 def registerUser(request):
     if request.method == 'POST':
