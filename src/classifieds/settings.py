@@ -207,21 +207,21 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 CLASSIFIED_LIST_MAX_ITEMS = 25
 
-CLASSIFIED_THUMBNAILS = [
-    {
+CLASSIFIED_THUMBNAILS = {
+    'thumb150': {
         'width': 150,
         'height': 150
     },
-    {
+    'thumb270': {
         'width': 270,
         'height': 195
     },
-    {
+    'thumb320': {
         'width': 320,
         'height': 240
     },
-    {
+    'thumb500': {
         'width': 500,
         'height': 400
     },
-]
+}

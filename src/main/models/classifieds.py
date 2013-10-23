@@ -32,6 +32,9 @@ class Classified(models.Model):
         day = min(sourcedate.day,calendar.monthrange(year,month)[1])
         return datetime.date(year,month,day)
 
+    def getThumb(self, postfix, field_name = 'image_1'):
+        return Upload.getThumbFilename(getattr(self, field_name), postfix)
+
     @property
     def permalink(self, max_length = 45):
         title = re.sub('[^0-9a-zA-Z]+', ' ', self.title).strip()

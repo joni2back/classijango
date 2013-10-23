@@ -82,7 +82,7 @@ class Upload:
         return wrapper
 
     @staticmethod
-    def generateThumbnail(imagepath, width, height, quality = 80):
+    def generateThumbnail(imagepath, postfix, width, height, quality = 80):
         if not imagepath:
             return
         imagepath = str(imagepath)
@@ -91,11 +91,9 @@ class Upload:
         
         if image.mode not in ('L', 'RGB'):
             image = image.convert('RGB')
-        ext = str(imagepath).split('.')[-1]
-        ext = 'jpg'
+
         filename = str(imagepath).split('.')[0]
-        
-        filename = '{}.thumb.{}.{}'.format(filename, width, ext)
+        filename = Upload.getThumbFilename(filename, postfix)
         filepath = os.path.join(settings.MEDIA_ROOT, filename)
 
         imagefit = ImageOps.fit(image, (width, height), Image.ANTIALIAS)
@@ -107,14 +105,21 @@ class Upload:
         if not imagepath:
             return
         for size in settings.CLASSIFIED_THUMBNAILS:
-            Logger.getInstance().debug('Generating thumbnail for \'%s\' with size: %sx%s' % (imagepath, size['width'], size['height']))
-            Upload.generateThumbnail(imagepath, size['width'], size['height'], quality)
+            width = settings.CLASSIFIED_THUMBNAILS[size]['width']
+            height = settings.CLASSIFIED_THUMBNAILS[size]['height']
+            Logger.getInstance().debug('Generating thumbnail for \'%s\' (%s) with size: %sx%s' % (imagepath, size, width, height))
+            Upload.generateThumbnail(imagepath, size, width, height, quality)
 
     @staticmethod
     def generateClassifiedThumbsByRequest(request, classified, names = ['image_1', 'image_2', 'image_3']):
         for name in names:
             if request.FILES.get(name):
                 Upload.generateClassifiedThumbs(getattr(classified, name))
+
+    @staticmethod
+    def getThumbFilename(imagepath, postfix):
+        filename = str(imagepath).split('.')[0]
+        return '{}.{}.{}'.format(filename, postfix, 'jpg')
 
 class Email:
     @staticmethod
