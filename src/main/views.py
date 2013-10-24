@@ -14,6 +14,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.views import login as originalLogin
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.validators import validate_email
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.forms.formsets import formset_factory
@@ -41,19 +42,27 @@ def jsonCities(request):
 
 @csrf_exempt
 def listClassifieds(request):
+    #TODO   Solve the problem with paginator and post filter vars
     search_form = SerarchForm()
     advanced_search_form = AdvancedSerarchForm()
-
     if request.POST:
         search_query = Search.prepareClassifiedQuery(request)
         try:
-            classifieds = Classified.objects.filter(search_query)[:settings.CLASSIFIED_LIST_MAX_ITEMS]
+            classifieds = Classified.objects.filter(search_query)[:settings.CLASSIFIED_LIST_MAX_ITEMS_QUERY]
         except:
             Logger.getInstance().error('Invalid parameters at query: <<%s>>' % str(search_query))
             raise Exception('Invalid parameters')
     else:
-        classifieds = Classified.objects.all()[:settings.CLASSIFIED_LIST_MAX_ITEMS]
+        classifieds = Classified.objects.all()[:settings.CLASSIFIED_LIST_MAX_ITEMS_QUERY]
 
+    paginator = Paginator(classifieds, settings.CLASSIFIED_LIST_MAX_ITEMS_PER_PAGE)
+    try:
+        classifieds = paginator.page(request.GET.get('page'))
+    except PageNotAnInteger:
+        classifieds = paginator.page(1)
+    except EmptyPage:
+        classifieds = paginator.page(paginator.num_pages)
+     
     return render_to_response(
         'classifieds/list.html',
         {
@@ -144,6 +153,13 @@ def myProfile(request):
 @login_required
 def myClassifieds(request):
     classifieds = Classified.objects.filter(Q(user = request.user.id) | Q(contact_email = request.user.email))
+    paginator = Paginator(classifieds, settings.CLASSIFIED_LIST_MAX_ITEMS_PER_PAGE)
+    try:
+        classifieds = paginator.page(request.GET.get('page'))
+    except PageNotAnInteger:
+        classifieds = paginator.page(1)
+    except EmptyPage:
+        classifieds = paginator.page(paginator.num_pages)
     return render_to_response(
         'classifieds/myclassifieds.html', 
         {
