@@ -1,0 +1,13 @@
+<div class="pagination pagination-centered">
+  <ul>
+    {% if classifieds.has_previous %}
+      <li><a href="?page={{ classifieds.previous_page_number }}">Prev</a></li>
+    {% endif %}
+    {% for page in classifieds.paginator.page_range %}
+      <li class="{% if page == classifieds.number %}active{% endif %}"><a href="?page={{ page }}">{{ page }}</a></li>
+    {% endfor %}
+    {% if classifieds.has_next %}
+      <li><a href="?page={{ classifieds.next_page_number }}">Next</a></li>
+    {% endif %}
+  </ul>
+</div>
