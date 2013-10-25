@@ -14,8 +14,8 @@
 			{% if form.errors %}
 				<p><i>You can also use your email address to sign in</i></p>
 			{% endif %}
-			<input type="submit" class="btn btn-primary" value="Sign in" />
-			<input type="submit" class="btn" value="I've forgotten my password" />
+			<input class="btn btn-primary" type="submit" value="Sign in" />
+			<a class="btn" href="/accounts/password/reset/">I've forgotten my password</a>
 			<input type="hidden" name="next" value="{{ next }}" />
 		</fieldset>
 	</form>

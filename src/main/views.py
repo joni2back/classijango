@@ -43,8 +43,8 @@ def jsonCities(request):
 @csrf_exempt
 def listClassifieds(request):
     #TODO   Solve the problem with paginator and post filter vars
-    search_form = SerarchForm()
-    advanced_search_form = AdvancedSerarchForm()
+    search_form = SerarchForm(request.POST)
+    advanced_search_form = AdvancedSerarchForm(request.POST)
     if request.POST:
         search_query = Search.prepareClassifiedQuery(request)
         try:
