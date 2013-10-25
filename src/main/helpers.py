@@ -15,14 +15,14 @@ class Search:
     @staticmethod
     def prepareClassifiedQuery(request):
         return Search.buildQuery(
-            request.POST.get('search'),
+            request.GET.get('search'),
             ['title', 'content'],
-            request.POST, 
+            request.GET, 
             ['city_id', 'category', 'currency'],
             {
                 'price': [
-                    request.POST.get('price_min'), 
-                    request.POST.get('price_max')
+                    request.GET.get('price_min'), 
+                    request.GET.get('price_max')
                 ],
             }
         )

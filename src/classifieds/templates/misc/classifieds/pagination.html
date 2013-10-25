@@ -1,13 +1,21 @@
+{% if classifieds.paginator.num_pages > 1 %}
 <div class="pagination pagination-centered">
   <ul>
     {% if classifieds.has_previous %}
-      <li><a href="?page={{ classifieds.previous_page_number }}">Prev</a></li>
+      <li>
+        <a href="{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}&amp;page={% else %}?page={% endif %}{{ classifieds.previous_page_number }}">Prev</a>
+      </li>
     {% endif %}
     {% for page in classifieds.paginator.page_range %}
-      <li class="{% if page == classifieds.number %}active{% endif %}"><a href="?page={{ page }}">{{ page }}</a></li>
+      <li class="{% if page == classifieds.number %}active{% endif %}">
+        <a href="{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}&amp;page={% else %}?page={% endif %}{{ page }}">{{ page }}</a>
+      </li>
     {% endfor %}
     {% if classifieds.has_next %}
-      <li><a href="?page={{ classifieds.next_page_number }}">Next</a></li>
+      <li>
+        <a href="{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}&amp;page={% else %}?page={% endif %}{{ classifieds.next_page_number }}">Next</a>
+      </li>
     {% endif %}
   </ul>
 </div>
+{% endif %}

@@ -42,10 +42,9 @@ def jsonCities(request):
 
 @csrf_exempt
 def listClassifieds(request):
-    #TODO   Solve the problem with paginator and post filter vars
-    search_form = SerarchForm(request.POST)
-    advanced_search_form = AdvancedSerarchForm(request.POST)
-    if request.POST:
+    search_form = SerarchForm(request.GET)
+    advanced_search_form = AdvancedSerarchForm(request.GET)
+    if request.POST or request.GET:
         search_query = Search.prepareClassifiedQuery(request)
         try:
             classifieds = Classified.objects.filter(search_query)[:settings.CLASSIFIED_LIST_MAX_ITEMS_QUERY]
