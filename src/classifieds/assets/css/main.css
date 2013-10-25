@@ -1,0 +1,33 @@
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+.sidebar-nav {
+  padding: 9px 0;
+}
+@media (max-width: 980px) {
+  body {
+    padding-top: 0px;
+  }
+}
+ul.errorlist li {
+    color:red;
+}
+.navbar.navbar-fixed-top form.form-search {
+  position:relative;
+}
+form.form-search:before {
+  content: '';
+  display: block;
+  width: 14px;
+  height: 14px;
+  background: url("../img/glyphicons-halflings.png") -48px 0;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  opacity: .5;
+  z-index: 1000;
+}
+form.form-search input.search-query {
+  padding-left: 25px;
+}
