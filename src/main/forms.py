@@ -70,10 +70,10 @@ class SerarchForm(forms.Form):
     search = forms.CharField(max_length = 100)
 
 class AdvancedSerarchForm(forms.Form):
-    search = forms.CharField(max_length = 100, required = False)
+    search = forms.CharField(max_length = 100, required = False, widget = forms.TextInput(attrs = {'placeholder': 'Search'}))
     category = forms.ModelChoiceField(queryset = ClassifiedCategory.objects.all(), required = False)
-    city = forms.CharField(max_length = 100, widget = forms.TextInput(attrs = {'autocomplete': 'off'}), required = False)
-    city_id = forms.CharField(max_length = 100, widget = forms.TextInput(attrs = {'type': 'hidden'}), required = False)
-    price_min = forms.CharField(max_length = 100, required = False)
-    price_max = forms.CharField(max_length = 100, required = False)
+    city = forms.CharField(max_length = 100, required = False, widget = forms.TextInput(attrs = {'autocomplete': 'off', 'placeholder': 'Location'}))
+    city_id = forms.CharField(max_length = 100, required = False, widget = forms.TextInput(attrs = {'type': 'hidden'}))
+    price_min = forms.CharField(max_length = 100, required = False, widget = forms.TextInput(attrs = {'placeholder': 'Price Min'}))
+    price_max = forms.CharField(max_length = 100, required = False, widget = forms.TextInput(attrs = {'placeholder': 'Price Max'}))
     currency = forms.ChoiceField(choices = Classified.CLASSIFIED_CURRENCIES, required = False)

@@ -8,6 +8,12 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 
 class Search:
+
+    @staticmethod
+    def urlFromString(string, max_length = 45):
+        string = re.sub('[^0-9a-zA-Z]+', ' ', string).strip()
+        return string[:max_length].lower().replace(' ', '-')
+
     @staticmethod
     def normalizeQuery(query_string, findterms = re.compile(r'"([^"]+)"|(\S+)').findall, normspace = re.compile(r'\s{2,}').sub):
         return [normspace(' ', (t[0] or t[1]).strip()) for t in findterms(query_string)] 

@@ -41,11 +41,17 @@ def jsonCities(request):
     return HttpResponse(dumps(list), mimetype = 'application/json')
 
 @csrf_exempt
-def listClassifieds(request):
+def listClassifieds(request, categoryName = ''):
     search_form = SerarchForm(request.GET)
     advanced_search_form = AdvancedSerarchForm(request.GET)
-    if request.POST or request.GET:
+
+    if request.GET or categoryName:
         search_query = Search.prepareClassifiedQuery(request)
+
+        if categoryName:
+            search_query = search_query & Q(**{'category__title': categoryName})
+            print search_query
+
         try:
             classifieds = Classified.objects.filter(search_query)[:settings.CLASSIFIED_LIST_MAX_ITEMS_QUERY]
         except:
@@ -53,6 +59,7 @@ def listClassifieds(request):
             raise Exception('Invalid parameters')
     else:
         classifieds = Classified.objects.all()[:settings.CLASSIFIED_LIST_MAX_ITEMS_QUERY]
+
 
     paginator = Paginator(classifieds, settings.CLASSIFIED_LIST_MAX_ITEMS_PER_PAGE)
     try:
@@ -66,6 +73,7 @@ def listClassifieds(request):
         'classifieds/list.html',
         {
             'classifieds': classifieds,
+            'categories': ClassifiedCategory.objects.all(),
             'search_form': search_form,
             'advanced_search_form': advanced_search_form
         }, 
