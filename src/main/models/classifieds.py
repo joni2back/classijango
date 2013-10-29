@@ -20,7 +20,7 @@ class Classified(models.Model):
         ('rent', 'For rent'),
     )
     CLASSIFIED_CURRENCIES = (
-        ('', '---------'),
+        ('', 'Select currency'),
         ('usd', 'Dollar'),
         ('peso_arg', 'Argentine Peso'),
     )

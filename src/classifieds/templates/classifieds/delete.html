@@ -5,16 +5,16 @@
 {% endblock %}
 
 {% block main_content %}
-    <div class="span9">
-        <h3>Do you want to delete: "{{ classified.title }}"?</h3>
-        <form id='delete-ad' method='post' class='form-horizontal' enctype='multipart/form-data'>
-            <fieldset>
-                {% csrf_token %}
-                <p>
-                    <input type='button' class='btn' value='Cancel' />
-                    <input type='submit' class='btn btn-danger' value='Yes, delete it !' />
-                </p>
-            </fieldset>
-        </form>
-    </div>
+<div class="span9">
+    <h3>Do you want to delete: "{{ classified.title }}"?</h3>
+    <form id='delete-ad' method='post' class='form-horizontal' enctype='multipart/form-data'>
+        <fieldset>
+            {% csrf_token %}
+            <p>
+                <input type='button' class='btn' value='Cancel' />
+                <input type='submit' class='btn btn-danger' value='Yes, delete it !' />
+            </p>
+        </fieldset>
+    </form>
+</div>
 {% endblock %}

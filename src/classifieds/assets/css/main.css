@@ -30,5 +30,3 @@ form.form-search:before {
 form.form-search input.search-query {
   padding-left: 25px;
 }
-input,textarea,.uneditable-input{width:175px;}
-select{width:190px;}
