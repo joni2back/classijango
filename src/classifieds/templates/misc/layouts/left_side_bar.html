@@ -1,12 +1,12 @@
 {% block sidebar %}
 <div class="well sidebar-nav">
     <form class="nav nav-list" method='get' class='form-search form-search-advanced'>
-        <span class="nav-header">Search classified</span>
-        {% include 'misc/search/classifieds_advanced.html' %}
+        <span class="nav-header">Filter</span>
+        {% include 'misc/search/classifieds_advanced.html' %}        
     </form>
     <hr />
     <ul class="nav nav-list">
-      <li class="nav-header">Categories</li>
+      <li><span class="nav-header">Category</span></li>
       {% for category in categories %}
         <li class='{% ifequal request.path "/ads/category/"|add:category.title|lower|add:"/" %}active {% endifequal %}{% ifequal request.GET.category|add:0 category.id %} active{% endifequal %}'><a href="/ads/category/{{ category.title|lower }}/">{{ category.title }}</a></li>
       {% endfor %}

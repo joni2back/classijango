@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 {% block title %}Classifieds list{% endblock %}
 {% block header %} 
-	<h1>Classifieds list</h1>
+    <h2>Listing</h2>
+    <p class="big grey">Look up classifieds</p>
 {% endblock %}
 {% block main_content %}
   <div class="row-fluid">
     <div class="span3">
       {% include 'misc/layouts/left_side_bar.html' %}
-    </div><!--/span-->
+    </div>
     <div class="span9">
       <div class="row-fluid">
         <ul class="thumbnails">
@@ -18,7 +19,7 @@
                 <img src="/uploads/{{ classified.image_1 }}" alt="{{ classified.title }}" />
               </a>
               <div class="caption">
-                <h4><a href='/ads/{{ classified.permalink }}'>{{ classified.title }}</a></h4>
+                <h5><a href='/ads/{{ classified.permalink }}'>{{ classified.title }}</a></h5>
                 <p>{{ classified.content|slice:":200"  }}...</p>
                 <p><i class="icon icon-map-marker"></i> {{ classified.city }}, {{ classified.city.province }}</p>
               </div>
@@ -32,6 +33,6 @@
         </ul>
         {% include 'misc/classifieds/pagination.html' %}
       </div>
-    </div><!--/span-->
-  </div><!--/row-->
+    </div>
+  </div>
 {% endblock %}

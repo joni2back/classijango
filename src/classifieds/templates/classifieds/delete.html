@@ -1,18 +1,20 @@
 {% extends 'base.html' %}
 {% block title %}Delete Classified{% endblock %}
 {% block header %} 
-    <h1>Delete Classified</h1>
+    <h2>Delete Classified</h2>
 {% endblock %}
 
 {% block main_content %}
-    <h3>Do you want to delete: "{{ classified.title }}"?</h3>
-    <form id='delete-ad' method='post' class='form-horizontal' enctype='multipart/form-data'>
-        <fieldset>
-            {% csrf_token %}
-            <p>
-                <input type='button' class='btn' value='Cancel' />
-                <input type='submit' class='btn btn-danger' value='Yes, delete it !' />
-            </p>
-        </fieldset>
-    </form>
+    <div class="span9">
+        <h3>Do you want to delete: "{{ classified.title }}"?</h3>
+        <form id='delete-ad' method='post' class='form-horizontal' enctype='multipart/form-data'>
+            <fieldset>
+                {% csrf_token %}
+                <p>
+                    <input type='button' class='btn' value='Cancel' />
+                    <input type='submit' class='btn btn-danger' value='Yes, delete it !' />
+                </p>
+            </fieldset>
+        </form>
+    </div>
 {% endblock %}

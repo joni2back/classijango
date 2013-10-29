@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}{{ classified }}{% endblock %}
 {% block header %} 
-    <h1>Classified</h1>
+    <h2>Classified detail</h2>
 {% endblock %}
 
 {% block main_content %}
-    <div class="row-fluid marketing">
+    <div class="span9">
         <div class="span">
           <h4>{{ classified }}</h4>
           <img src="{{MEDIA_URL}}{{ classified.image_1 }}" alt="{{ classified }}" style="width:30%"/>
