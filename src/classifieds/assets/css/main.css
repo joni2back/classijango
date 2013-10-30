@@ -48,7 +48,8 @@ form.form-search input.search-query {
 .formy .form-horizontal .control-group {
   margin-bottom:14px;
 }
-.formy .form-horizontal .control-group .alert.alert-error {
+.formy .form-horizontal .control-group .alert.alert-error,
+.create-ad .alert.alert-error {
   padding:1px;
   margin:0;
   font-size:12px;
@@ -57,6 +58,18 @@ form.form-search input.search-query {
   -moz-border-radius: 3px!important;
   border-radius: 3px!important;
   color:#fff;
+}
+
+.wrap-error {
+  background:rgba(0,0,0, 0.05);
+  -webkit-border-radius: 5px!important;
+  -moz-border-radius: 5px!important;
+  border-radius: 5px!important;
+  padding:8px;
+  margin-bottom:6px;
+}
+.wrap-error input, .wrap-error textarea, .wrap-error select {
+  bxorder-color: red;
 }
 .formy .control-group.error .control-label, 
 .formy .control-group.error .help-block,

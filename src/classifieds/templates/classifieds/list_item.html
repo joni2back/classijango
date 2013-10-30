@@ -1,0 +1,27 @@
+<div class="time">
+  <div class="tidate b-blue">
+     <a href="/ads/{{ classified.permalink }}">{{ classified.title }}</a>
+  </div>
+  <div class="timatter clearfix">
+    <div class="thumbnail span3">
+      <a href="/ads/{{ classified.permalink }}">
+        <img src="/uploads/{{ classified.image_1 }}" alt="{{ classified.title }}" />
+      </a>
+    </div>
+    <div class="span9">
+      <p>{{ classified.content|slice:":220"  }}...</p>
+      <hr />
+      <div class="row-fluid">
+        <div class="span5">
+          <span><i class="icon icon-map-marker"></i>{{ classified.city }}, {{ classified.city.province }}</span>
+        </div>
+        <div class="span3">
+          <span><i class="icon icon-shopping-cart"></i><b>${{ classified.price }}</b></span>
+        </div>
+        <div class="span3">
+          <span><i class="icon icon-eye-open"></i><b>223{{ classified.visits }}</b> Visits</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
