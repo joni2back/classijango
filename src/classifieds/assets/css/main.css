@@ -76,3 +76,12 @@ form.form-search input.search-query {
 .formy .control-group.error .help-inline {
   color:#fff;
 }
+ul.typeahead.dropdown-menu li {
+  padding:0px!important;
+}
+ul.typeahead.dropdown-menu li a { 
+  font-size:13px!important;
+  margin:0px!important;
+  padding:4px!important;
+}
+

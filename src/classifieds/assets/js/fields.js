@@ -24,7 +24,11 @@ $(function() {
             return item;
         }
     });
-    
+    fields.city.on('change', function(e) {
+        if (fields.city.val().trim() == '') {
+            fields.cityId.val('');
+        }   
+    });     
     fields.cityId.parents('tr').hide();
 
 });
