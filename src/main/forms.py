@@ -41,6 +41,10 @@ class UserRegistrationForm(UserCreationForm):
         model = UserProfile
         fields = ('username', 'email', 'phone',)
 
+    def __init__(self, *args, **kwargs):
+        super(UserRegistrationForm, self).__init__(*args, **kwargs)
+        self.fields['password2'].label = 'Confirm pass'
+
     def clean_password2(self):
         password1 = self.cleaned_data.get('password1')
         password2 = self.cleaned_data.get('password2')

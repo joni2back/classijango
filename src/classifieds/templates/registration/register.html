@@ -1,19 +1,86 @@
 {% extends 'base.html' %}
 {% block title %}Signup{% endblock %}
 {% block header %} 
-	<h2>Create an account</h2>
+	<h2>Register Today</h2>
 {% endblock %}
 
 {% block main_content %}
-<div class="span9">
-    <form id='register-form' method='post' class='form-horizontal'>
-        <fieldset>
-            {% csrf_token %}
-            <table class='table table-striped table-bordered table-hover '>			
-                {{ formset }}
-            </table>
-            <p><input type='submit' class='btn btn-primary ' value='Register'/></p>
-        </fieldset>
-    </form>
+
+
+
+<div class="span6">
+  <p class="big grey">Morbi tincidunt posuere turpis eu laoreet</p>
+  <p>Nullam in est urna. In vitae adipiscing enim. Curabitur rhoncus condimentum lorem, non convallis dolor faucibus eget. In vitae adipiscing enim. Curabitur rhoncus condimentum lorem, non convallis dolor faucibus eget. In ut nulla est. </p>
+  <p>Nullam in est urna. In vitae adipiscing enim. In ut nulla est. Nullam in est urna. In vitae adipiscing enim. Curabitur rhoncus condimentum lorem, non convallis dolor faucibus eget. In ut nulla est. </p>
+
 </div>
+
+<div class="span6">
+  <div class="formy">
+      <h5>Register for New Account</h5>
+      <div class="form">
+          <!-- Register form (not working)-->
+          <form method="post" class="form-horizontal" />{% csrf_token %}
+              <!-- Name -->
+              {% for field in formset.visible_fields %}
+              <div class="control-group {% if field.errors %}error{% endif %}">
+                <label class="control-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                <div class="controls">
+                  {{ field }}
+                  {% if field.errors %}
+                    <span class="alert alert-error"><i class="icon icon-remove"></i>{{ field.errors|striptags }}</span>
+                  {% endif %}
+                </div>
+              </div>   
+              {% endfor %}
+              <div class="form-actions">
+                 <!-- Buttons -->
+                <button type="submit" class="btn">Register</button>
+                <button type="reset" class="btn">Reset</button>
+              </div>
+          </form>
+          Already have an Account? <a href="/accounts/login/">Login</a>
+        </div> 
+      </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
