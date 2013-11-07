@@ -84,4 +84,6 @@ ul.typeahead.dropdown-menu li a {
   margin:0px!important;
   padding:4px!important;
 }
-
+.noleft [class*="span"] {
+  margin-left:0!important;
+}

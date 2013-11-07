@@ -1,27 +1,25 @@
 {% extends 'base.html' %}
-{% block title %}Create an ad{% endblock %}
+{% block title %}Create classified{% endblock %}
 {% block header %} 
     <h2>Create classified</h2>
 {% endblock %}
 
 {% block main_content %}
 
-
-
 <form method='post' class="create-ad" enctype='multipart/form-data'>
     {% csrf_token %}
-    <div class="span8">
-        <div class="well">
+    <div class="span8 noleft">
+        <div class="well tospan7">
 
             <div class="span7 {% if formset.title.errors %}wrap-error{% endif %}">
-              <input type="text" class="span7" name="{{ formset.title.name }}" placeholder="Enter Title"/>
+              {{ formset.title }}
               {% if formset.title.errors %}
                 <span class="alert alert-error"><i class="icon icon-remove"></i>{{ formset.title.errors|striptags }}</span>
               {% endif %}
             </div>
 
             <div class="span7 {% if formset.content.errors %}wrap-error{% endif %}">
-              <textarea class="span7" name="{{ formset.content.name }}" rows="7" placeholder="Enter Content"></textarea>
+              {{ formset.content }}
               {% if formset.content.errors %}
                 <span class="alert alert-error"><i class="icon icon-remove"></i>{{ formset.content.errors|striptags }}</span>
               {% endif %}
@@ -38,14 +36,12 @@
 
                 <div class="span2 {% if formset.image_2.errors %}wrap-error{% endif %}">
                   {{ formset.image_2 }}
-                  <!--<button class="btn"><i class="icon-paper-clip"></i>Add image</button>-->
                   {% if formset.image_2.errors %}
                     <span class="alert alert-error"><i class="icon icon-remove"></i>{{ formset.image_2.errors|striptags }}</span>
                   {% endif %}
                 </div>
                 <div class="span2 {% if formset.image_3.errors %}wrap-error{% endif %}">
                   {{ formset.image_3 }}
-                  <!--<button class="btn"><i class="icon-paper-clip"></i>Add image</button>-->
                   {% if formset.image_3.errors %}
                     <span class="alert alert-error"><i class="icon icon-remove"></i>{{ formset.image_3.errors|striptags }}</span>
                   {% endif %}
@@ -56,48 +52,41 @@
             <hr/>
 
             <div class="controls controls-row">
-                    <div class="span3 {% if formset.price.errors %}wrap-error{% endif %}">
-                      <input class="span3" type="text" name="{{ formset.price.name }}" placeholder="Price"/>
-                      {% if formset.price.errors %}
-                        <span class="alert alert-error"><i class="icon icon-remove"></i>{{ formset.price.errors|striptags }}</span>
-                      {% endif %}
-                    </div>
-                    <div class="span3 {% if formset.currency.errors %}wrap-error{% endif %}">
-                      {{ formset.currency }}
-                      {% if formset.currency.errors %}
-                        <span class="alert alert-error"><i class="icon icon-remove"></i>{{ formset.currency.errors|striptags }}</span>
-                      {% endif %}
-                    </div>
+              <div class="span3 {% if formset.price.errors %}wrap-error{% endif %}">
+                {{ formset.price }}
+                {% if formset.price.errors %}
+                  <span class="alert alert-error"><i class="icon icon-remove"></i>{{ formset.price.errors|striptags }}</span>
+                {% endif %}
+              </div>
+              <div class="span3 {% if formset.currency.errors %}wrap-error{% endif %}">
+                {{ formset.currency }}
+                {% if formset.currency.errors %}
+                  <span class="alert alert-error"><i class="icon icon-remove"></i>{{ formset.currency.errors|striptags }}</span>
+                {% endif %}
+              </div>
 
-                    <div class="span3 {% if formset.category.errors %}wrap-error{% endif %}">
-                      {{ formset.category }}
-                      {% if formset.category.errors %}
-                        <span class="alert alert-error"><i class="icon icon-remove"></i>{{ formset.category.errors|striptags }}</span>
-                      {% endif %}
-                    </div>
-                    <div class="span3 {% if formset.type.errors %}wrap-error{% endif %}">
-                      {{ formset.type }}
-                      {% if formset.type.errors %}
-                        <span class="alert alert-error"><i class="icon icon-remove"></i>{{ formset.type.errors|striptags }}</span>
-                      {% endif %}
-                    </div>
-                    {% block inline_script %}
-                    <script>
-                        $(document).ready(function(){
-                            $('.controls-row').find('input,select').addClass('span3');
-                        });
-                    </script>
-                    {% endblock %}
+              <div class="span3 {% if formset.category.errors %}wrap-error{% endif %}">
+                {{ formset.category }}
+                {% if formset.category.errors %}
+                  <span class="alert alert-error"><i class="icon icon-remove"></i>{{ formset.category.errors|striptags }}</span>
+                {% endif %}
+              </div>
+              <div class="span3 {% if formset.type.errors %}wrap-error{% endif %}">
+                {{ formset.type }}
+                {% if formset.type.errors %}
+                  <span class="alert alert-error"><i class="icon icon-remove"></i>{{ formset.type.errors|striptags }}</span>
+                {% endif %}
+              </div>
             </div>
         </div>
     </div>
-    <div class="span4">
-        <div class="well">
+    <div class="span4 noleft">
+        <div class="well tospan3">
             <h6>Contact info</h6>
 
 
             <div class="span3 {% if formset.city.errors %}wrap-error{% endif %}">
-              <input class="span3" type="text" name="{{ formset.city.name }}" id="id_city" placeholder="City"/>
+              {{ formset.city }}
               <input class="span3" type="hidden" name="{{ formset.city_id.name }}" id="id_city_id"/>
               {% if formset.city.errors %}
                 <span class="alert alert-error"><i class="icon icon-remove"></i>{{ formset.city.errors|striptags }}</span>
@@ -105,55 +94,61 @@
             </div>
 
             <div class="span3 {% if formset.contact_address.errors %}wrap-error{% endif %}">
-              <input class="span3" type="text" name="{{ formset.contact_address.name }}" placeholder="Contact Address"/>
+              {{ formset.contact_address }}
               {% if formset.contact_address.errors %}
                 <span class="alert alert-error"><i class="icon icon-remove"></i>{{ formset.contact_address.errors|striptags }}</span>
               {% endif %}
             </div>
 
             <div class="span3 {% if formset.contact_phone.errors %}wrap-error{% endif %}">
-              <input class="span3" type="text" name="{{ formset.contact_phone.name }}"  placeholder="Contact Phone"/>
+              {{ formset.contact_phone }}
               {% if formset.contact_phone.errors %}
                 <span class="alert alert-error"><i class="icon icon-remove"></i>{{ formset.contact_phone.errors|striptags }}</span>
               {% endif %}
             </div>
 
             <div class="span3 {% if formset.contact_name.errors %}wrap-error{% endif %}">
-              <input class="span3" type="text" name="{{ formset.contact_name.name }}"  placeholder="Contact Name"/>
+              {{ formset.contact_name }}
               {% if formset.contact_name.errors %}
                 <span class="alert alert-error"><i class="icon icon-remove"></i>{{ formset.contact_name.errors|striptags }}</span>
               {% endif %}
             </div>
 
             <div class="span3 {% if formset.contact_email.errors %}wrap-error{% endif %}">
-              <input class="span3" type="text" name="{{ formset.contact_email.name }}"  placeholder="Contact Email"/>
+              {{ formset.contact_email }}
               {% if formset.contact_email.errors %}
                 <span class="alert alert-error"><i class="icon icon-remove"></i>{{ formset.contact_email.errors|striptags }}</span>
               {% endif %}
             </div>
 
-
-
             <div class="span3 {% if formset.google_map.errors %}wrap-error{% endif %}">
-              <input class="span3" type="text" name="{{ formset.google_map.name }}"  placeholder="Google map"/>
+              {{ formset.google_map }}
               {% if formset.google_map.errors %}
                 <span class="alert alert-error"><i class="icon icon-remove"></i>{{ formset.google_map.errors|striptags }}</span>
               {% endif %}
             </div>
 
-
-            
-            
-            
-            
-            
-            
-            
-            <hr />
             <button class="btn btn-primary">Publish Classified</button>
             <button class="btn btn-danger">Cancel</button>
         </div>
     </div>
 </form>
 
+{% endblock %}
+
+{% block inline_script %}
+<script>
+$(document).ready(function(){
+    $('.controls-row').find('input,select').addClass('span3');
+    $('input, textarea').each(function(i, e) {
+      $(e).attr('placeholder', $(e).attr('name').preety().ucwords());
+    });
+    $('.tospan3').find('input, select, textarea').each(function(i, e) {
+      $(e).addClass('span3');
+    });
+    $('.tospan7').find('input, select, textarea').each(function(i, e) {
+      $(e).addClass('span7');
+    });
+});
+</script>
 {% endblock %}
