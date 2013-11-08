@@ -82,6 +82,8 @@ def listClassifieds(request, categoryName = ''):
 
 def viewClassified(request, classifiedTitle, classifiedId):
     classified = Classified.objects.get(pk = classifiedId)
+    classified.visits += 1
+    classified.save()
     return render_to_response(
         'classifieds/view.html',
         {

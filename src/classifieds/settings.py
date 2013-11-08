@@ -136,7 +136,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
-    #'south',
+    'south',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

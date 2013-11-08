@@ -61,6 +61,7 @@ class Classified(models.Model):
     contact_email = models.CharField(max_length = 128, null = True)
     contact_phone = models.CharField(max_length = 64, null = True, blank = True)
     google_map = models.CharField(max_length = 128, null = True, blank = True)
+    visits = models.IntegerField(default = 0, null = True, blank = True)
 
     image_1 = models.ImageField(upload_to = Upload.generateRandomFilename('classifieds/images'), blank = True)
     image_2 = models.ImageField(upload_to = Upload.generateRandomFilename('classifieds/images'), blank = True)
