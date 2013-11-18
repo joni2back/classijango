@@ -3,11 +3,13 @@
      <a href="/ads/{{ classified.permalink }}">{{ classified.title }}</a>
   </div>
   <div class="timatter clearfix">
+    {% if classified.image_1 %}
     <div class="thumbnail span3">
       <a href="/ads/{{ classified.permalink }}">
-        <img src="/uploads/{{ classified.image_1 }}" alt="{{ classified.title }}" />
+        <img src="/uploads/{{ classified.image_1_thumbs.thumb150x110 }}" alt="{{ classified.title }}" />
       </a>
     </div>
+    {% endif %}
     <div class="span9">
       <p>{{ classified.content|slice:":220"  }}...</p>
       <hr />

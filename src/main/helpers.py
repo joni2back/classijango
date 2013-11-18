@@ -103,18 +103,31 @@ class Upload:
         filepath = os.path.join(settings.MEDIA_ROOT, filename)
 
         imagefit = ImageOps.fit(image, (width, height), Image.ANTIALIAS)
-        imagefit.save(filepath, 'JPEG', quality = quality)
+        imagefit.save(filepath, settings.CLASSIFIED_THUMBNAILS_CONVERSION_TYPE, quality = quality)
         return filepath
 
     @staticmethod
-    def generateClassifiedThumbs(imagepath, quality = 80):
+    def generateClassifiedThumbs(imagepath):
         if not imagepath:
             return
         for size in settings.CLASSIFIED_THUMBNAILS:
             width = settings.CLASSIFIED_THUMBNAILS[size]['width']
             height = settings.CLASSIFIED_THUMBNAILS[size]['height']
-            Logger.getInstance().debug('Generating thumbnail for \'%s\' (%s) with size: %sx%s' % (imagepath, size, width, height))
+            quality = settings.CLASSIFIED_THUMBNAILS[size]['quality']
+            Logger.getInstance().debug('Generating thumbnail for \'%s\' (%s) with size: %sx%s with quality %s%%' % (imagepath, size, width, height, quality))
             Upload.generateThumbnail(imagepath, size, width, height, quality)
+
+    @staticmethod
+    def getClasifiedThumbs(filename):
+        thumbs = {}
+        if not filename:
+            return
+        for size in settings.CLASSIFIED_THUMBNAILS:
+            width = settings.CLASSIFIED_THUMBNAILS[size]['width']
+            height = settings.CLASSIFIED_THUMBNAILS[size]['height']
+            quality = settings.CLASSIFIED_THUMBNAILS[size]['quality']
+            thumbs[size] = Upload.getThumbFilename(filename, size)
+        return thumbs
 
     @staticmethod
     def generateClassifiedThumbsByRequest(request, classified, names = ['image_1', 'image_2', 'image_3']):
@@ -125,7 +138,7 @@ class Upload:
     @staticmethod
     def getThumbFilename(imagepath, postfix):
         filename = str(imagepath).split('.')[0]
-        return '{}.{}.{}'.format(filename, postfix, 'jpg')
+        return '{}.{}.{}'.format(filename, postfix, settings.CLASSIFIED_THUMBNAILS_EXT)
 
 class Email:
     @staticmethod

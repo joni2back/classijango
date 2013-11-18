@@ -87,7 +87,7 @@
 
             <div class="span3 {% if formset.city.errors %}wrap-error{% endif %}">
               {{ formset.city }}
-              <input class="span3" type="hidden" name="{{ formset.city_id.name }}" id="id_city_id"/>
+              {{ formset.city_id }}
               {% if formset.city.errors %}
                 <span class="alert alert-error"><i class="icon icon-remove"></i>{{ formset.city.errors|striptags }}</span>
               {% endif %}

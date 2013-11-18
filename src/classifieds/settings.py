@@ -209,21 +209,32 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 CLASSIFIED_LIST_MAX_ITEMS_QUERY = 100
 CLASSIFIED_LIST_MAX_ITEMS_PER_PAGE = 4
 
+CLASSIFIED_THUMBNAILS_CONVERSION_TYPE = 'JPEG'
+CLASSIFIED_THUMBNAILS_EXT = 'jpg'
 CLASSIFIED_THUMBNAILS = {
-    'thumb150': {
+    'thumb150x150': {
         'width': 150,
-        'height': 150
+        'height': 150,
+        'quality': 95,
     },
-    'thumb270': {
+    'thumb150x110': {
+        'width': 150,
+        'height': 110,
+        'quality': 95,
+    },
+    'thumb270x195': {
         'width': 270,
-        'height': 195
+        'height': 195,
+        'quality': 80,
     },
-    'thumb320': {
+    'thumb320x240': {
         'width': 320,
-        'height': 240
+        'height': 240,
+        'quality': 80,
     },
-    'thumb500': {
+    'thumb500x400': {
         'width': 500,
-        'height': 400
+        'height': 400,
+        'quality': 80,
     },
 }

@@ -32,16 +32,23 @@ class Classified(models.Model):
         day = min(sourcedate.day,calendar.monthrange(year,month)[1])
         return datetime.date(year,month,day)
 
-    def getThumb(self, postfix, field_name = 'image_1'):
-        return Upload.getThumbFilename(getattr(self, field_name), postfix)
-
     @property
     def permalink(self, max_length = 45):
         title = re.sub('[^0-9a-zA-Z]+', ' ', self.title).strip()
         category = self.category.title.lower()
         return '%d/%s/%s' % (self.id, category, title[:max_length].lower().replace(' ', '-'))
 
-    expirationDate = addMonths(datetime.date.today(), CLASSIFIED_EXPIRATION_MONTHS)
+    @property
+    def image_1_thumbs(self):
+        return Upload.getClasifiedThumbs(getattr(self, 'image_1'))
+
+    @property
+    def image_2_thumbs(self):
+        return Upload.getClasifiedThumbs(getattr(self, 'image_2'))
+
+    @property
+    def image_3_thumbs(self):
+        return Upload.getClasifiedThumbs(getattr(self, 'image_3'))
 
     title = models.CharField(max_length = 255)
     content = models.TextField()
@@ -51,7 +58,7 @@ class Classified(models.Model):
     type = models.CharField(max_length = 12, choices = CLASSIFIED_TYPES, default = 'sale')
     currency = models.CharField(max_length = 12, choices = CLASSIFIED_CURRENCIES, default = 'peso_arg')
     created = models.DateTimeField(auto_now = True)
-    expires = models.DateTimeField(default = expirationDate)
+    expires = models.DateTimeField(default = addMonths(datetime.date.today(), CLASSIFIED_EXPIRATION_MONTHS))
     price = models.FloatField()
     
     city = models.ForeignKey(City, null = True, blank = True)
