@@ -42,7 +42,6 @@ def jsonCities(request):
 
 @csrf_exempt
 def listClassifieds(request, categoryName = ''):
-    search_form = SerarchForm(request.GET)
     advanced_search_form = AdvancedSerarchForm(request.GET)
 
     if request.GET or categoryName:
@@ -74,7 +73,6 @@ def listClassifieds(request, categoryName = ''):
         {
             'classifieds': classifieds,
             'categories': ClassifiedCategory.objects.all(),
-            'search_form': search_form,
             'advanced_search_form': advanced_search_form
         }, 
         context_instance = RequestContext(request)
@@ -107,7 +105,7 @@ def login(request, template_name = 'registration/login.html',
           redirect_field_name = REDIRECT_FIELD_NAME,
           authentication_form = AuthenticationForm,
           current_app = None, extra_context = None):
-    if request.POST and request.POST.get('username'):
+    if request.method == 'POST' and request.POST.get('username'):
         try:
             validate_email(request.POST.get('username'))
             user = UserProfile.objects.get(email = request.POST.get('username'))
@@ -233,6 +231,23 @@ def editClassified(request, classifiedId):
         'classifieds/create.html', 
         {
             'formset': formset,
+        }, 
+        context_instance = RequestContext(request)
+    )
+
+def contactSeller(request, classifiedId):
+    classified = Classified.objects.get(pk = classifiedId)
+    if request.method == 'POST':
+        formset = ContactSellerForm(request.POST)
+        if formset.is_valid():
+            Email.sendClassifiedContactSellerEmail(classified)
+    else:
+        formset = ContactSellerForm()
+    return render_to_response(
+        'classifieds/contact_seller.html', 
+        {
+            'formset': formset,
+            'classified': classified
         }, 
         context_instance = RequestContext(request)
     )

@@ -22,6 +22,7 @@ urlpatterns = patterns('',
 
     url(r'^ads/find/', 'main.views.listClassifieds'),
     url(r'^ads/category/(?P<categoryName>[a-z]{1,64})/$', 'main.views.listClassifieds'),
+    url(r'^ads/(?P<classifiedId>[0-9]{1,8})/contact$', 'main.views.contactSeller'),
     url(r'^ads/(?P<classifiedId>[0-9]{1,8})/(?P<classifiedTitle>[a-zA-Z0-9_\-\/]{0,95})$', 'main.views.viewClassified'),
     url(r'^ads/edit/(?P<classifiedId>[0-9]{1,8})$', 'main.views.editClassified'),
     url(r'^ads/delete/(?P<classifiedId>[0-9]{1,8})$', 'main.views.deleteClassified'),

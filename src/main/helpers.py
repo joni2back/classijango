@@ -154,6 +154,19 @@ class Email:
 
         return msg.send()
 
+    @staticmethod
+    def sendClassifiedContactSellerEmail(classified):
+        subject, from_email, to = classified.title, settings.DEFAULT_FROM_EMAIL, classified.contact_email
+        text_content = classified.content
+        html_content = classified.content
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        msg.attach_alternative(html_content, "text/html")
+        if str(classified.image_1):
+            img = os.path.join(settings.MEDIA_ROOT, str(classified.image_1))
+            msg.attach_file(img)
+
+        return msg.send()
+
 class Logger:
     @staticmethod
     def getInstance(logger_name = 'classijango'):

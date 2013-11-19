@@ -69,10 +69,6 @@ class UserRegistrationForm(UserCreationForm):
             user.save()
         return user
 
-class SerarchForm(forms.Form):
-    category = forms.ModelChoiceField(queryset = ClassifiedCategory.objects.all())
-    search = forms.CharField(max_length = 100)
-
 class AdvancedSerarchForm(forms.Form):
     search = forms.CharField(max_length = 100, required = False, widget = forms.TextInput(attrs = {'placeholder': 'Search', 'class':'span2'}))
     category = forms.ModelChoiceField(queryset = ClassifiedCategory.objects.all(), required = False, widget = forms.Select(attrs = {'class':'span2'}))
@@ -81,3 +77,13 @@ class AdvancedSerarchForm(forms.Form):
     price_min = forms.CharField(max_length = 100, required = False, widget = forms.TextInput(attrs = {'placeholder': 'Price Min', 'class':'span2'}))
     price_max = forms.CharField(max_length = 100, required = False, widget = forms.TextInput(attrs = {'placeholder': 'Price Max', 'class':'span2'}))
     currency = forms.ChoiceField(choices = Classified.CLASSIFIED_CURRENCIES, required = False, widget = forms.Select(attrs = {'class':'span2'}))
+
+class ContactSellerForm(ModelForm):
+    name = forms.CharField(max_length = 100, required = True, widget = forms.TextInput(attrs = {}))
+    email = forms.CharField(max_length = 100, required = True, widget = forms.TextInput(attrs = {}))
+    phone = forms.CharField(max_length = 100, required = True, widget = forms.TextInput(attrs = {}))
+    message = forms.CharField(max_length = 3000, required = True, widget = forms.Textarea(attrs = {}))
+
+    class Meta:
+        model = Classified
+        fields = ()
