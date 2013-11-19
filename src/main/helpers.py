@@ -155,10 +155,10 @@ class Email:
         return msg.send()
 
     @staticmethod
-    def sendClassifiedContactSellerEmail(classified):
+    def sendClassifiedContactSellerEmail(formset_data, classified):
         subject, from_email, to = classified.title, settings.DEFAULT_FROM_EMAIL, classified.contact_email
-        text_content = classified.content
-        html_content = classified.content
+        text_content = formset_data['name']
+        html_content = formset_data['name']
         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
         msg.attach_alternative(html_content, "text/html")
         if str(classified.image_1):

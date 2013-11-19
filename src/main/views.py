@@ -52,7 +52,7 @@ def listClassifieds(request, categoryName = ''):
             print search_query
 
         try:
-            classifieds = Classified.objects.filter(search_query)[:settings.CLASSIFIED_LIST_MAX_ITEMS_QUERY]
+            classifieds = Classified.objects.filter(search_query).order_by('-created')[:settings.CLASSIFIED_LIST_MAX_ITEMS_QUERY]
         except:
             Logger.getInstance().error('Invalid parameters at query: <<%s>>' % str(search_query))
             raise Exception('Invalid parameters')
@@ -240,7 +240,7 @@ def contactSeller(request, classifiedId):
     if request.method == 'POST':
         formset = ContactSellerForm(request.POST)
         if formset.is_valid():
-            Email.sendClassifiedContactSellerEmail(classified)
+            Email.sendClassifiedContactSellerEmail(formset.data, classified)
     else:
         formset = ContactSellerForm()
     return render_to_response(

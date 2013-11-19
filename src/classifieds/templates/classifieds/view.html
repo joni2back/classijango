@@ -9,11 +9,9 @@
     <div id="myCarousel" class="carousel slide">
       <!-- Carousel items -->
       <div class="carousel-inner">
-        <div class="active item"><img src="{{MEDIA_URL}}{{ classified.image_1 }}" alt="" /></div>
-        <div class="item"><img src="{{MEDIA_URL}}{{ classified.image_1 }}" alt="" /></div>
-        <div class="item"><img src="{{MEDIA_URL}}{{ classified.image_1 }}" alt="" /></div>
-        <div class="item"><img src="{{MEDIA_URL}}{{ classified.image_1 }}" alt="" /></div>
-        <div class="item"><img src="{{MEDIA_URL}}{{ classified.image_1 }}" alt="" /></div>
+        {% if classified.image_1 %}<div class="active item"><img src="{{MEDIA_URL}}{{ classified.image_1_thumbs.thumb620x410 }}" alt="" /></div>{% endif %}
+        {% if classified.image_2 %}<div class="item"><img src="{{MEDIA_URL}}{{ classified.image_2_thumbs.thumb620x410 }}" alt="" /></div>{% endif %}
+        {% if classified.image_3 %}<div class="item"><img src="{{MEDIA_URL}}{{ classified.image_3_thumbs.thumb620x410 }}" alt="" /></div>{% endif %}
       </div>
       <!-- Carousel nav -->
       <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>

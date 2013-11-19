@@ -237,4 +237,9 @@ CLASSIFIED_THUMBNAILS = {
         'height': 400,
         'quality': 80,
     },
+    'thumb620x410': {
+        'width': 620,
+        'height': 410,
+        'quality': 80,
+    },
 }

@@ -10,18 +10,21 @@
       </a>
     </div>
     {% endif %}
-    <div class="span9">
+    <div class="span{% if classified.image_1 %}9{% endif %}">
       <p>{{ classified.content|slice:":220"  }}...</p>
       <hr />
       <div class="row-fluid">
-        <div class="span5">
+        <div class="span4">
           <span><i class="icon icon-map-marker"></i>{{ classified.city }}, {{ classified.city.province }}</span>
         </div>
-        <div class="span3">
+        <div class="span2">
           <span><i class="icon icon-shopping-cart"></i><b>${{ classified.price }}</b></span>
         </div>
         <div class="span3">
-          <span><i class="icon icon-eye-open"></i><b>223{{ classified.visits }}</b> Visits</span>
+          <span><i class="icon icon-eye-open"></i><b>{{ classified.visits }}</b> Visits</span>
+        </div>
+        <div class="span3">
+          <span><i class="icon icon-calendar"></i>{{ classified.created|date:"d/m/Y" }}</span>
         </div>
       </div>
     </div>
