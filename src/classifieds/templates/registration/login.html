@@ -5,22 +5,34 @@
 {% endblock %}
 
 {% block main_content %}
-<div class="span9">
-	<form method="post" action="" class='form-horizontal'>
-		<fieldset>
-			{% csrf_token %}
-			<table class='table table-striped table-bordered table-hover '>
-				{{ form }}
-			</table>
-			{% if form.errors %}
-				<p><i>You can also use your email address to sign in</i></p>
-			{% endif %}
-			<input class="btn btn-primary" type="submit" value="Sign in" />
-			<a class="btn" href="/accounts/password/reset/">I've forgotten my password</a>
-			<input type="hidden" name="next" value="{{ next }}" />
-		</fieldset>
-	</form>
+
+<div class="span12">
+  <div class="lrform">
+     <h5>Login to your Account</h5>
+      <div class="form">
+          <form class="form-horizontal" method="post">{% csrf_token %}
+              <div class="control-group">
+                <label class="control-label" for="username">Username</label>
+                <div class="controls">
+                  {{ form.username }}
+                  {{ form.username.errors|striptags }}
+                  {% if form.errors %}<p><i>You can use your email to sign in</i></p>{% endif %}
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="email">Password</label>
+                <div class="controls">
+                  {{ form.password }}
+                  {{ form.password.errors|striptags }}
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn">Login</button>
+              </div>
+          </form>
+         Don't have Account? <a href="/accounts/register/">Register</a>
+        </div> 
+   </div>
 </div>
+
 {% endblock %}
-
-
