@@ -111,6 +111,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.contrib.messages.context_processors.messages",
     "django.core.context_processors.request",
+    "main.context_processors.trendingCategories",
+    "main.context_processors.latestClassifieds",
 )
 
 MIDDLEWARE_CLASSES = (

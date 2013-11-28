@@ -4,7 +4,7 @@
     <div class="row">
       <div class="span12">
         <p class="big">
-          <span>Follow Us On</span>
+          <span>Classijango</span>
           <a href="http://www.facebook.com/classijango"><i class="icon-facebook"></i>Facebook</a>
           <a href="http://twitter.com/classijango"><i class="icon-twitter"></i>Twitter</a>
           </p>
@@ -21,10 +21,8 @@
         <div class="span4">
           <div class="fwidget">
 
-
-
             <div class="col-l">
-            <h6>Categories</h6>
+            <h6>Trending searches</h6>
             <ul>
               <li><a href="#">Mobile</a></li>
               <li><a href="#">Geek Gadgets</a></li>
@@ -39,13 +37,11 @@
 
         <div class="span4">
           <div class="fwidget">
-            <h6>Categories</h6>
+            <h6>Trending categories</h6>
             <ul>
-              <li><a href="#">Mobile</a></li>
-              <li><a href="#">Geek Gadgets</a></li>
-              <li><a href="#">Cameras</a></li>
-              <li><a href="#">Games</a></li>
-              <li><a href="#">Computers</a></li>
+              {% for category in trendingCategories %}
+                <li><a href="/ads/category/{{ category.permalink }}">{{ category }}</a></li>
+              {% endfor %}
             </ul>
           </div>
         </div>
@@ -54,11 +50,9 @@
           <div class="fwidget">
             <h6>Latest Classifieds</h6>
             <ul>
-              <li><a href="#">Sed eu leo orci, condimentum gravida metus</a></li>
-              <li><a href="#">Etiam at nulla ipsum, in rhoncus purus</a></li>
-              <li><a href="#">Fusce vel magna faucibus felis dapibus facilisis</a></li>
-              <li><a href="#">Vivamus scelerisque dui in massa</a></li>
-              <li><a href="#">Pellentesque eget adipiscing dui semper</a></li>
+              {% for classified in latestClassifieds %}
+                <li><a href="/ads/{{ classified.permalink }}">{{ classified }}</a></li>
+              {% endfor %}
             </ul>
           </div>
         </div>
