@@ -17,8 +17,6 @@ class ClassifiedCategory(models.Model):
         app_label = 'main'
         db_table = 'main_classifieds_categories'
 
-
-
     def __unicode__(self):
         return self.title
 

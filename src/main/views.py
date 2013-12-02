@@ -6,7 +6,7 @@ from main.models.locations import City
 from main.forms import *
 from main.helpers import *
 from django.db.models import Q
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
@@ -19,6 +19,7 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.forms.formsets import formset_factory
 from django.http import HttpResponse, HttpResponseRedirect
+from django.core.exceptions import PermissionDenied
 from json import dumps
 
 @csrf_exempt
@@ -79,7 +80,7 @@ def listClassifieds(request, categoryName = ''):
     )
 
 def viewClassified(request, classifiedTitle, classifiedId):
-    classified = Classified.objects.get(pk = classifiedId)
+    classified = get_object_or_404(Classified, pk = classifiedId)
     classified.visits += 1
     classified.save()
     return render_to_response(
@@ -177,15 +178,9 @@ def myClassifieds(request):
 
 @login_required
 def deleteClassified(request, classifiedId):
-    classified = Classified.objects.get(pk = classifiedId)
-
-    allowed = True
-    if not classified.user and not classified.contact_email and not request.user:
-        allowed = False
-    elif request.user != classified.user and request.user.email != classified.contact_email:
-        allowed = False
-    if not allowed:
-        raise Exception('AccessDenied')
+    classified = get_object_or_404(Classified, pk = classifiedId)
+    if not classified.is_owner(request.user):
+        raise PermissionDenied('AccessDenied')
 
     if request.method == 'POST':
         classified.delete()
@@ -201,15 +196,10 @@ def deleteClassified(request, classifiedId):
 
 @login_required
 def editClassified(request, classifiedId):
-    classified = Classified.objects.get(pk = classifiedId)
+    classified = get_object_or_404(Classified, pk = classifiedId)
 
-    allowed = True
-    if not classified.user and not classified.contact_email and not request.user:
-        allowed = False
-    elif request.user != classified.user and request.user.email != classified.contact_email:
-        allowed = False
-    if not allowed:
-        raise Exception('AccessDenied')
+    if not classified.is_owner(request.user):
+        raise PermissionDenied('AccessDenied')
 
     if request.method == 'POST':
         formset = AddClassifiedForm(request.POST, request.FILES, instance = classified)
@@ -236,7 +226,7 @@ def editClassified(request, classifiedId):
     )
 
 def contactSeller(request, classifiedId):
-    classified = Classified.objects.get(pk = classifiedId)
+    classified = get_object_or_404(Classified, pk = classifiedId)
     if request.method == 'POST':
         formset = ContactSellerForm(request.POST)
         if formset.is_valid():

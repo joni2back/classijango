@@ -33,7 +33,7 @@
        </ul>
        <hr />
        <!-- Buttons -->
-        <a href="#" class="btn btn-info">Contact seller</a>
+        <a href="/ads/{{ classified.id }}/contact" class="btn btn-info">Contact seller</a>
         <a href="/ads/edit/{{ classified.id }}" class="btn btn-primary">Edit</a>
         <a href="/ads/delete/{{ classified.id }}" class="btn btn-danger">Delete</a>
     </div>
@@ -44,7 +44,7 @@
   <div class="well">
     <p>{{ classified.content }}</p>
   </div>
-    <div class="related-projects">
+    <div class=" well related-projects">
       <!-- Title -->
       <h5 class="title">Details</h5>
        <hr />
@@ -57,12 +57,10 @@
           <li><strong>Expires: </strong>{{ classified.expires }}</li>
        </ul>
        <hr />
-      <a href="#"><img src="img/photos/tn_1.jpg" alt="" /></a> 
-      <a href="#"><img src="img/photos/tn_2.jpg" alt="" /></a> 
-      <a href="#"><img src="img/photos/tn_3.jpg" alt="" /></a> 
-      <a href="#"><img src="img/photos/tn_4.jpg" alt="" /></a> 
-      <a href="#"><img src="img/photos/tn_5.jpg" alt="" /></a>
-
+       <h5 class="title">Related items</h5>              
+      {% for classified in latestClassifieds %}
+        <a href="/ads/{{ classified.permalink }}"><img src="/uploads/{{ classified.image_1_thumbs.thumb150x110 }}" alt="" /></a>
+      {% endfor %}
     </div>
   <div class="bor"></div>
  </div>

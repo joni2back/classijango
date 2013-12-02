@@ -50,6 +50,14 @@ class Classified(models.Model):
     def image_3_thumbs(self):
         return Upload.getClasifiedThumbs(getattr(self, 'image_3'))
 
+    def is_owner(self, user):
+        owner = True
+        if not self.user and not self.contact_email and not user:
+            owner = False
+        elif user != self.user and user.email != self.contact_email:
+            owner = False
+        return owner
+
     title = models.CharField(max_length = 255)
     content = models.TextField()
     user = models.ForeignKey(User, null = True, blank = True)
