@@ -1,4 +1,4 @@
 classijango
 ===========
 
-Python Django
+Python.Django Classified Platform
